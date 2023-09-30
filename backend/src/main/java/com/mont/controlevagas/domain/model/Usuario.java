@@ -1,7 +1,5 @@
 package com.mont.controlevagas.domain.model;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,23 +7,16 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Candidatura {
+@Entity
+public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-
-    private String empresa;
-
-    private String descricao;
-
-    private CandidaturaStatus status;
-
-    private BigDecimal salario;
-
-    private String plataformaVagas;
+    private String nome;
+    private String email;
+    private String senha;
 }
