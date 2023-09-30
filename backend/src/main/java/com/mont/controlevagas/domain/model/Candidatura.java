@@ -18,14 +18,10 @@ public class Candidatura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-
+    
     private String empresa;
-
     private String descricao;
-
     private CandidaturaStatus status;
-
     private BigDecimal salario;
-
     private String plataformaVagas;
 }
