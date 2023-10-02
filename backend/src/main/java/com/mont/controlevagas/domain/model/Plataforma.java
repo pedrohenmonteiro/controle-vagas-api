@@ -23,4 +23,7 @@ public class Plataforma {
 
     @OneToMany(mappedBy = "plataforma")
     private List<Candidatura> candidaturas;
+
+    
+
 }
