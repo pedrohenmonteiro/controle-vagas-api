@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.mont.controlevagas.api.dto.UsuarioDto;
+import com.mont.controlevagas.api.dto.input.UsuarioInputDto;
 import com.mont.controlevagas.domain.model.Usuario;
 
 
@@ -16,7 +17,7 @@ public class UsuarioMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public Usuario toEntity(UsuarioDto usuarioDto) {
+    public Usuario toEntity(UsuarioInputDto usuarioDto) {
         return modelMapper.map(usuarioDto, Usuario.class);
     }
 

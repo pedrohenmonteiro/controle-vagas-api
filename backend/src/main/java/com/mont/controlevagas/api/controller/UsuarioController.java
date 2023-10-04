@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mont.controlevagas.api.dto.UsuarioDto;
+import com.mont.controlevagas.api.dto.input.UsuarioInputDto;
 import com.mont.controlevagas.domain.service.UsuarioService;
 
 @RestController
@@ -35,7 +36,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDto> create(@RequestBody UsuarioDto usuarioDto) {
+    public ResponseEntity<UsuarioDto> create(@RequestBody UsuarioInputDto usuarioDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.create(usuarioDto));
     }
 }
