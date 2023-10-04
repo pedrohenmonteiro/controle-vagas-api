@@ -1,5 +1,7 @@
 package com.mont.controlevagas.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,14 @@ public class UsuarioService {
     @Autowired
     private UsuarioMapper usuarioMapper;
 
+    public List<UsuarioDto> findAll() {
+        return usuarioMapper.toCollectionDto(usuarioRepository.findAll());
+    }
+
+    public UsuarioDto findById(Long id) {
+        return usuarioMapper.toDto(findOrFail(id));
+    }
+
 
     public UsuarioDto create(UsuarioDto usuarioDto) {
         var usuario = usuarioMapper.toEntity(usuarioDto);
@@ -24,5 +34,9 @@ public class UsuarioService {
 
         return usuarioMapper.toDto(usuario);
     }
+
+    private Usuario findOrFail(Long id) {
+        return usuarioRepository.findById(id).orElseThrow();
+    } 
 
 }
