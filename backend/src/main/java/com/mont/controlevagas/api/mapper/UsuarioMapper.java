@@ -28,4 +28,8 @@ public class UsuarioMapper {
     public List<UsuarioDto> toCollectionDto(List<Usuario> usuarios) {
         return usuarios.stream().map(this::toDto).toList();
     }
+
+    public void copyToDomainObject(UsuarioInputDto usuarioDto, Usuario usuario) {
+        modelMapper.map(usuarioDto, usuario);
+    }
 }

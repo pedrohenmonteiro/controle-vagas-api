@@ -2,7 +2,6 @@ package com.mont.controlevagas.api.controller;
 
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +27,7 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<List<UsuarioDto>> findAll() {
+
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.findAll());
     }
 
@@ -38,5 +39,10 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioDto> create(@RequestBody UsuarioInputDto usuarioDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.create(usuarioDto));
+    }
+
+    @PutMapping("/{usuarioId}")
+    public ResponseEntity<UsuarioDto> update(@PathVariable Long usuarioId, @RequestBody UsuarioInputDto usuarioDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.update(usuarioId, usuarioDto));
     }
 }

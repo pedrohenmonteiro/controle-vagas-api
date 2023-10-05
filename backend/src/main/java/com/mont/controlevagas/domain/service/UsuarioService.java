@@ -36,6 +36,16 @@ public class UsuarioService {
         return usuarioMapper.toDto(usuario);
     }
 
+    public UsuarioDto update(Long id, UsuarioInputDto usuarioDto) {
+        var usuario = findOrFail(id);
+        usuarioMapper.copyToDomainObject(usuarioDto, usuario);
+
+        usuarioRepository.save(usuario);
+
+        return usuarioMapper.toDto(usuario);
+    
+    }
+
     private Usuario findOrFail(Long id) {
         return usuarioRepository.findById(id).orElseThrow();
     } 
