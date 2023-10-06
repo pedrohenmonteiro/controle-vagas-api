@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PermissaoInputDto {
-    private String permissao;
+    private String nome;
     private String descricao;
 }

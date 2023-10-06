@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class PermissaoDto {
     private Long id;
-    private String permissao;
+    private String nome;
     private String descricao;
 }
