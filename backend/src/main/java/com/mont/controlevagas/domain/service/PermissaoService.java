@@ -1,15 +1,20 @@
 package com.mont.controlevagas.domain.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.mont.controlevagas.api.dto.PermissaoDto;
 import com.mont.controlevagas.api.dto.input.PermissaoInputDto;
 import com.mont.controlevagas.api.mapper.PermissaoMapper;
+import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.model.Permissao;
 import com.mont.controlevagas.domain.repository.PermissaoRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class PermissaoService {
@@ -44,6 +49,16 @@ public class PermissaoService {
 
         return permissaoMapper.toDto(permissao);
     
+    }
+
+    public void delete(Long id) {
+        try {
+            
+            var permissao = findOrFail(id);
+            permissaoRepository.delete(permissao);
+        } catch (DataIntegrityViolationException e) {
+            throw new ConflictException(String.format("Recurso de id %d não pode ser excluído pois está em uso", id));
+        }
     }
 
     protected Permissao findOrFail(Long id) {

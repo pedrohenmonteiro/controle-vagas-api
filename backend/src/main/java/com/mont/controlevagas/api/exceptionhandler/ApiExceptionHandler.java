@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.exceptions.ExceptionResponse;
 import com.mont.controlevagas.domain.exceptions.NotFoundException;
 
@@ -19,8 +20,13 @@ import com.mont.controlevagas.domain.exceptions.NotFoundException;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> notFoundExceptionHandler(Exception ex, WebRequest req) {
+    public ResponseEntity<?> handleNotFoundException(Exception ex, WebRequest req) {
        return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NOT_FOUND, req);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<?> handleConflictException(Exception ex, WebRequest req) {
+       return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.CONFLICT, req);
     }
 
 
@@ -37,6 +43,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .message(ex.getMessage())
                 .details(request.getDescription(false))
             .build();
+
+            System.out.println(ex.getClass().getName());
+            System.out.println(ex.getCause());
 
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
