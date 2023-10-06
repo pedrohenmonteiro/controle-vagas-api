@@ -32,5 +32,13 @@ public class Usuario {
     @JoinTable(name = "usuario_permissao",
     joinColumns = @JoinColumn(name = "usuario_id"),
     inverseJoinColumns = @JoinColumn(name = "permissao_id"))
-    private Set<Permissao> permissao;
+    private Set<Permissao> permissoes;
+
+    public boolean removePermissoes(Permissao permissao) {
+        return getPermissoes().remove(permissao);
+    }
+
+    public boolean adicionaPermissoes(Permissao permissao) {
+        return getPermissoes().add(permissao);
+    }
 }
