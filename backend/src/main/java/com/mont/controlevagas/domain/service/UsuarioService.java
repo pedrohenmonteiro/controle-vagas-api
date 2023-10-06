@@ -46,7 +46,7 @@ public class UsuarioService {
     
     }
 
-    private Usuario findOrFail(Long id) {
+    protected Usuario findOrFail(Long id) {
         return usuarioRepository.findById(id).orElseThrow();
     } 
 
