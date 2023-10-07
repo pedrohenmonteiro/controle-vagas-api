@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -29,6 +30,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
        return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.CONFLICT, req);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        String message = "O corpo da requisição está inválido. Verifique erro de sintaxe.";       
+
+        return handleExceptionInternal(ex, message, headers, status, request);
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
@@ -36,18 +45,29 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         
         String title = HttpStatus.valueOf(statusCode.value()).getReasonPhrase();     
 
-        body = ExceptionResponse.builder()
+        var newBody = ExceptionResponse.builder()
                 .timestamp(OffsetDateTime.now())
                 .status(statusCode.value())
                 .title(title)
                 .message(ex.getMessage())
-                .details(request.getDescription(false))
-            .build();
+                .details(request.getDescription(false));
 
+             if(body == null) {
+               body = newBody.build();
+            } else if (body instanceof String) {
+                var message = (String) body;
+                newBody.message(message);
+              body = newBody.build(); 
+            }
+            
+            System.out.println("======================================================================");
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getCause());
+            System.out.println("======================================================================");
+
 
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
+
     
 }
