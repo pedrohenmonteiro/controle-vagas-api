@@ -1,8 +1,9 @@
 package com.mont.controlevagas.api.exceptionhandler;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.exceptions.ExceptionResponse;
 import com.mont.controlevagas.domain.exceptions.NotFoundException;
@@ -33,10 +36,40 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
             HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String message = "O corpo da requisição está inválido. Verifique erro de sintaxe.";       
+        String message = "O corpo da requisição está inválido. Verifique erro de sintaxe.";      
+        
+        Throwable rootCause = ex.getCause();        
 
+        if(rootCause instanceof InvalidFormatException) {
+           return handleInvalidFormatException((InvalidFormatException) rootCause, status, request);
+       }
+    
         return handleExceptionInternal(ex, message, headers, status, request);
     }
+
+
+    private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpStatusCode status, WebRequest req) {
+        System.out.println(ex.getPath().get(0).getFieldName());
+        var path = joinPath(ex.getPath());
+        Object[] args = {ex.getValue(), path, ex.getTargetType().getSimpleName()};
+        String errorMessage = String.format("O valor %s de %s tem um tipo inválido. O tipo do valor deve ser %s", args);
+
+        return handleExceptionInternal(ex, errorMessage, new HttpHeaders(), status, req);
+
+    }
+
+    private String joinPath(List<Reference> references) {
+        List<String> paths = new ArrayList<>();
+        
+        for(int i = 0; i < references.size(); i++) {
+           paths.add(references.get(i).getFieldName());
+        }
+        return String.join(".", paths);
+
+    }
+    
+
+    
 
 
     @Override

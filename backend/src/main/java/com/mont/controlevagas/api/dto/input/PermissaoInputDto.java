@@ -8,4 +8,6 @@ import lombok.Setter;
 public class PermissaoInputDto {
     private String nome;
     private String descricao;
+    private Long teste;
+
 }
