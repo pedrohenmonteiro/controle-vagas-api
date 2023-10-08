@@ -33,6 +33,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
        return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.CONFLICT, req);
     }
 
+
+    // Lidar com exceções de erros de sintaxe
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
             HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -48,8 +50,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
+    // Lidar com exceçoes de tipos dados diferentes
     private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpStatusCode status, WebRequest req) {
-        System.out.println(ex.getPath().get(0).getFieldName());
+      
         var path = joinPath(ex.getPath());
         Object[] args = {ex.getValue(), path, ex.getTargetType().getSimpleName()};
         String errorMessage = String.format("O valor %s de %s tem um tipo inválido. O tipo do valor deve ser %s", args);
@@ -58,6 +61,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
+    // Função para juntar o nome dos campos informados no corpo da resposta caso seja mais de um
+    //Exemplo: cidade.id
     private String joinPath(List<Reference> references) {
         List<String> paths = new ArrayList<>();
         
