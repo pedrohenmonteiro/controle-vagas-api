@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.exceptions.ExceptionResponse;
 import com.mont.controlevagas.domain.exceptions.NotFoundException;
@@ -45,6 +46,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         if(rootCause instanceof InvalidFormatException) {
            return handleInvalidFormatException((InvalidFormatException) rootCause, status, request);
        }
+        if(rootCause instanceof PropertyBindingException) {
+           return handlePropertyBindingException((PropertyBindingException) rootCause, status, request); 
+       }
     
         return handleExceptionInternal(ex, message, headers, status, request);
     }
@@ -55,10 +59,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
       
         var path = joinPath(ex.getPath());
         Object[] args = {ex.getValue(), path, ex.getTargetType().getSimpleName()};
-        String errorMessage = String.format("O valor %s de %s tem um tipo inválido. O tipo do valor deve ser %s", args);
+        String message = String.format("O valor %s de %s tem um tipo inválido. O tipo do valor deve ser %s", args);
 
-        return handleExceptionInternal(ex, errorMessage, new HttpHeaders(), status, req);
+        return handleExceptionInternal(ex, message, new HttpHeaders(), status, req);
 
+    }
+
+    private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex, HttpStatusCode status, WebRequest req) {
+        var path = joinPath(ex.getPath());
+         String message = String.format("A propriedade %s não existe. Corrija ou remova e tente novamente.", path);
+        return handleExceptionInternal(ex, message, new HttpHeaders(), status, req);
     }
 
     // Função para juntar o nome dos campos informados no corpo da resposta caso seja mais de um

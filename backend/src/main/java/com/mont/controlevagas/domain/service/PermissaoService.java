@@ -14,7 +14,6 @@ import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.model.Permissao;
 import com.mont.controlevagas.domain.repository.PermissaoRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class PermissaoService {
