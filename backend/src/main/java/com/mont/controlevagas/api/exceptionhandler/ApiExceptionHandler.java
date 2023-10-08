@@ -27,13 +27,20 @@ import com.mont.controlevagas.domain.exceptions.NotFoundException;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> handleNotFoundException(Exception ex, WebRequest req) {
-       return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NOT_FOUND, req);
+    public ResponseEntity<?> handleNotFoundException(Exception ex, WebRequest request) {
+       return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(ConflictException.class)
-    public ResponseEntity<?> handleConflictException(Exception ex, WebRequest req) {
-       return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.CONFLICT, req);
+    public ResponseEntity<?> handleConflictException(Exception ex, WebRequest request) {
+       return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<?> handleUncaughtExceptions(Exception ex, WebRequest request) {
+        var message = "Ocorreu um erro interno inesperado no sistema."
+        + " Tente novamente e se o problema persistir, entre em contato como administrador do sistema.";
+       return handleExceptionInternal(ex, message, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
 
