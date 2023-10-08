@@ -4,6 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -55,20 +56,33 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     // Lidar com exceçoes de tipos dados diferentes
-    private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpStatusCode status, WebRequest req) {
+    private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, 
+    HttpStatusCode status, WebRequest request) {
       
         var path = joinPath(ex.getPath());
         Object[] args = {ex.getValue(), path, ex.getTargetType().getSimpleName()};
         String message = String.format("O valor %s de %s tem um tipo inválido. O tipo do valor deve ser %s", args);
 
-        return handleExceptionInternal(ex, message, new HttpHeaders(), status, req);
+        return handleExceptionInternal(ex, message, new HttpHeaders(), status, request);
 
     }
 
-    private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex, HttpStatusCode status, WebRequest req) {
+    private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex, HttpStatusCode status, WebRequest request) {
         var path = joinPath(ex.getPath());
          String message = String.format("A propriedade %s não existe. Corrija ou remova e tente novamente.", path);
-        return handleExceptionInternal(ex, message, new HttpHeaders(), status, req);
+        return handleExceptionInternal(ex, message, new HttpHeaders(), status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
+            HttpStatusCode status, WebRequest request) {
+                
+        Object[] args = {ex.getPropertyName(),ex.getValue(),ex.getValue().getClass().getSimpleName(), ex.getRequiredType().getSimpleName()};
+		String message = String
+                    .format("O parâmetro da URL '%s' recebeu o valor '%s' do tipo %s que é um tipo inválido. O tipo do valor deve ser %s.", args);
+
+        
+        return handleExceptionInternal(ex, message, new HttpHeaders(), status, request);
     }
 
     // Função para juntar o nome dos campos informados no corpo da resposta caso seja mais de um
