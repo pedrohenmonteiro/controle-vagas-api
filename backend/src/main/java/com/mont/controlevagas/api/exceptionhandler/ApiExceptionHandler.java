@@ -13,6 +13,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
@@ -35,6 +36,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
        return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.CONFLICT, req);
     }
 
+
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
+            HttpStatusCode status, WebRequest request) {
+        String message = "O recurso " + ex.getRequestURL() + ", que você tentou acessar, não existe. ";
+        return handleExceptionInternal(ex, message, new HttpHeaders(), status, request);
+    }
 
     // Lidar com exceções de erros de sintaxe
     @Override
@@ -81,7 +89,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String message = String
                     .format("O parâmetro da URL '%s' recebeu o valor '%s' do tipo %s que é um tipo inválido. O tipo do valor deve ser %s.", args);
 
-        
         return handleExceptionInternal(ex, message, new HttpHeaders(), status, request);
     }
 
