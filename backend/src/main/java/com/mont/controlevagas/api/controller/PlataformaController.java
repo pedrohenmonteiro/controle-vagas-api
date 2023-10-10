@@ -19,7 +19,7 @@ import com.mont.controlevagas.api.dto.input.PlataformaInputDto;
 import com.mont.controlevagas.domain.service.PlataformaService;
 
 @RestController
-@RequestMapping("/plataforma")
+@RequestMapping("/plataformas")
 public class PlataformaController {
     @Autowired
     private PlataformaService plataformaService;
