@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.mont.controlevagas.api.dto.PermissaoDto;
 import com.mont.controlevagas.api.dto.input.PermissaoInputDto;
-import com.mont.controlevagas.api.dto.input.PermissaoInputDto;
-import com.mont.controlevagas.domain.model.Permissao;
 import com.mont.controlevagas.domain.model.Permissao;
 
 
