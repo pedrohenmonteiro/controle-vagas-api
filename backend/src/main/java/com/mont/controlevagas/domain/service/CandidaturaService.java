@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import com.mont.controlevagas.api.dto.CandidaturaDto;
 import com.mont.controlevagas.api.dto.input.CandidaturaInputDto;
 import com.mont.controlevagas.api.mapper.CandidaturaMapper;
+import com.mont.controlevagas.domain.exceptions.BadRequestException;
 import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.exceptions.NotFoundException;
 import com.mont.controlevagas.domain.model.Candidatura;
 import com.mont.controlevagas.domain.repository.CandidaturaRepository;
+import com.mont.controlevagas.domain.repository.PlataformaRepository;
 
 @Service
 public class CandidaturaService {
@@ -22,6 +24,9 @@ public class CandidaturaService {
 
     @Autowired
     private CandidaturaMapper candidaturaMapper;
+
+    @Autowired
+    private PlataformaRepository plataformaRepository;
 
     public List<CandidaturaDto> findAll() {
         return candidaturaMapper.toCollectionDto(candidaturaRepository.findAll());
@@ -34,8 +39,9 @@ public class CandidaturaService {
 
     public CandidaturaDto create(CandidaturaInputDto candidaturaDto) {
         var candidatura = candidaturaMapper.toEntity(candidaturaDto);
-        candidaturaRepository.save(candidatura);
+        setPlataforma(candidatura);
 
+        candidaturaRepository.save(candidatura);
         return candidaturaMapper.toDto(candidatura);
     }
 
@@ -55,11 +61,17 @@ public class CandidaturaService {
             var candidatura = findOrFail(id);
             candidaturaRepository.delete(candidatura);
         } catch (DataIntegrityViolationException e) {
-            throw new ConflictException(String.format("Recurso de id %d não pode ser excluído pois está em uso", id));
+            throw new ConflictException(String.format("Recurso de id %d, não pode ser excluído pois está em uso", id));
         }
     }
 
     protected Candidatura findOrFail(Long id) {
         return candidaturaRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     } 
+
+    private void setPlataforma(Candidatura candidatura) {
+        var plataformaId = candidatura.getPlataforma().getId();
+        var plataforma = plataformaRepository.findById(plataformaId).orElseThrow(() -> new BadRequestException("Recurso plataforma de id %^d, não foi encontrado"));
+        candidatura.setPlataforma(plataforma);
+    }
 }
