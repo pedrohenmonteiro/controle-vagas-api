@@ -10,6 +10,7 @@ import com.mont.controlevagas.api.dto.PlataformaDto;
 import com.mont.controlevagas.api.dto.input.PlataformaInputDto;
 import com.mont.controlevagas.api.mapper.PlataformaMapper;
 import com.mont.controlevagas.domain.exceptions.ConflictException;
+import com.mont.controlevagas.domain.exceptions.NotFoundException;
 import com.mont.controlevagas.domain.model.Plataforma;
 import com.mont.controlevagas.domain.repository.PlataformaRepository;
 
@@ -60,6 +61,6 @@ public class PlataformaService  {
     }
 
     protected Plataforma findOrFail(Long id) {
-        return plataformaRepository.findById(id).orElseThrow();
+        return plataformaRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     } 
 }

@@ -10,6 +10,7 @@ import com.mont.controlevagas.api.dto.PermissaoDto;
 import com.mont.controlevagas.api.dto.input.PermissaoInputDto;
 import com.mont.controlevagas.api.mapper.PermissaoMapper;
 import com.mont.controlevagas.domain.exceptions.ConflictException;
+import com.mont.controlevagas.domain.exceptions.NotFoundException;
 import com.mont.controlevagas.domain.model.Permissao;
 import com.mont.controlevagas.domain.repository.PermissaoRepository;
 
@@ -60,6 +61,6 @@ public class PermissaoService {
     }
 
     protected Permissao findOrFail(Long id) {
-        return permissaoRepository.findById(id).orElseThrow();
+        return permissaoRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     } 
 }
