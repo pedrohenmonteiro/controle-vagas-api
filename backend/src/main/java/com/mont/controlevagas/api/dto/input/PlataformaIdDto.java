@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PermissaoInputDto {
-    private String nome;
-    private String descricao;
-
+public class PlataformaIdDto {
+    
+    private Long id;
 }

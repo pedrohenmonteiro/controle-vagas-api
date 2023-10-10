@@ -3,6 +3,8 @@ package com.mont.controlevagas.domain.model;
 import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,6 +25,8 @@ public class Candidatura {
     
     private String empresa;
     private String descricao;
+
+    @Enumerated(EnumType.STRING)
     private CandidaturaStatus status;
     private BigDecimal salario;
     

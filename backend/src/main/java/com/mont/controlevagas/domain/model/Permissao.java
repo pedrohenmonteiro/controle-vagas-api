@@ -19,6 +19,5 @@ public class Permissao {
 
     private String nome;
     private String descricao;
-    private Long teste;
 
 }

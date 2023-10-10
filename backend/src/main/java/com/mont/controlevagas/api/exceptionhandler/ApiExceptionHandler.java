@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import com.mont.controlevagas.domain.exceptions.BadRequestException;
 import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.exceptions.ExceptionResponse;
 import com.mont.controlevagas.domain.exceptions.NotFoundException;
@@ -33,6 +34,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<?> handleConflictException(Exception ex, WebRequest request) {
+       return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<?> handleBadRequestException(Exception ex, WebRequest request) {
        return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
