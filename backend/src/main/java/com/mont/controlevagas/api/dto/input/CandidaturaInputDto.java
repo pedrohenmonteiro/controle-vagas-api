@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CandidaturaDto {
+public class CandidaturaInputDto {
     
     private String empresa;
     private String descricao;
