@@ -74,4 +74,6 @@ public class CandidaturaService {
         var plataforma = plataformaRepository.findById(plataformaId).orElseThrow(() -> new BadRequestException("Recurso plataforma de id %^d, não foi encontrado"));
         candidatura.setPlataforma(plataforma);
     }
+
+    
 }
