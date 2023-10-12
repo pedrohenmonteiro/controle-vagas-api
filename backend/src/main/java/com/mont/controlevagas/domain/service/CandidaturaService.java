@@ -2,7 +2,6 @@ package com.mont.controlevagas.domain.service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,14 +48,12 @@ public class CandidaturaService {
         var candidaturaStatus = candidaturaDto.getStatus();
         var valores = CandidaturaStatus.values();
 
-        Arrays.stream(valores).forEach(System.out::println);
-        System.out.println(Arrays.asList(valores).contains(CandidaturaStatus.valueOf(candidaturaStatus)));
+        Arrays.asList(valores).contains(CandidaturaStatus.valueOf(candidaturaStatus));
         
 
         candidaturaRepository.save(candidatura);
         return candidaturaMapper.toDto(candidatura);
         } catch (IllegalArgumentException e) {
-            var errorMessage = new StringBuilder();
             String enums = Arrays.stream(CandidaturaStatus.values()).map(Enum::name).collect(Collectors.joining(", "));
             throw new BadRequestException("O valor do campo status está incorreto. Um dos seguintes valores deve ser fornecido: '" + enums + "'");
         }

@@ -27,6 +27,7 @@ import com.mont.controlevagas.domain.exceptions.NotFoundException;
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> handleNotFoundException(Exception ex, WebRequest request) {
        return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
@@ -104,6 +105,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, message, new HttpHeaders(), status, request);
     }
+
+   
+
 
     // Função para juntar o nome dos campos informados no corpo da resposta caso seja mais de um
     //Exemplo: cidade.id

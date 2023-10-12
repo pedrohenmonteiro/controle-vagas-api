@@ -18,6 +18,8 @@ import com.mont.controlevagas.api.dto.PermissaoDto;
 import com.mont.controlevagas.api.dto.input.PermissaoInputDto;
 import com.mont.controlevagas.domain.service.PermissaoService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/permissoes")
 public class PermissaoController {
@@ -36,7 +38,7 @@ public class PermissaoController {
     }
 
     @PostMapping
-    public ResponseEntity<PermissaoDto> create(@RequestBody PermissaoInputDto permissaoDto) {
+    public ResponseEntity<PermissaoDto> create(@RequestBody @Valid PermissaoInputDto permissaoDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(permissaoService.create(permissaoDto));
     }
 

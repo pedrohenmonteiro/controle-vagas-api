@@ -18,9 +18,11 @@ import com.mont.controlevagas.api.dto.CandidaturaDto;
 import com.mont.controlevagas.api.dto.input.CandidaturaInputDto;
 import com.mont.controlevagas.domain.service.CandidaturaService;
 
+import jakarta.validation.Valid;
+
 
 @RestController
-@RequestMapping("/candidaturas")
+@RequestMapping(path = "/candidaturas", consumes = "application/json")
 public class CandidaturaController {
     
      @Autowired
@@ -38,7 +40,7 @@ public class CandidaturaController {
     }
 
     @PostMapping
-    public ResponseEntity<CandidaturaDto> create(@RequestBody CandidaturaInputDto candidaturaDto) {
+    public ResponseEntity<CandidaturaDto> create(@Valid @RequestBody CandidaturaInputDto candidaturaDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(candidaturaService.create(candidaturaDto));
     }
 

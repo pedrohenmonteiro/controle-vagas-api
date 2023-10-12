@@ -1,6 +1,7 @@
 package com.mont.controlevagas.domain.exceptions;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -20,4 +21,15 @@ public class ExceptionResponse {
     private String message;
 
     private String details;
+
+    private List<Field> fields;
+
+    @Getter
+    @Builder
+    public static class Field {
+
+        private String name;
+        private String userMessage;
+
+    }
 }
