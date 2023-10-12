@@ -1,6 +1,9 @@
 package com.mont.controlevagas.domain.service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,6 +16,7 @@ import com.mont.controlevagas.domain.exceptions.BadRequestException;
 import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.exceptions.NotFoundException;
 import com.mont.controlevagas.domain.model.Candidatura;
+import com.mont.controlevagas.domain.model.CandidaturaStatus;
 import com.mont.controlevagas.domain.repository.CandidaturaRepository;
 import com.mont.controlevagas.domain.repository.PlataformaRepository;
 
@@ -38,11 +42,24 @@ public class CandidaturaService {
 
 
     public CandidaturaDto create(CandidaturaInputDto candidaturaDto) {
-        var candidatura = candidaturaMapper.toEntity(candidaturaDto);
+        try {
+            var candidatura = candidaturaMapper.toEntity(candidaturaDto);
         setPlataforma(candidatura);
+
+        var candidaturaStatus = candidaturaDto.getStatus();
+        var valores = CandidaturaStatus.values();
+
+        Arrays.stream(valores).forEach(System.out::println);
+        System.out.println(Arrays.asList(valores).contains(CandidaturaStatus.valueOf(candidaturaStatus)));
+        
 
         candidaturaRepository.save(candidatura);
         return candidaturaMapper.toDto(candidatura);
+        } catch (IllegalArgumentException e) {
+            var errorMessage = new StringBuilder();
+            String enums = Arrays.stream(CandidaturaStatus.values()).map(Enum::name).collect(Collectors.joining(", "));
+            throw new BadRequestException("O valor do campo status está incorreto. Um dos seguintes valores deve ser fornecido: '" + enums + "'");
+        }
     }
 
     public CandidaturaDto update(Long id, CandidaturaInputDto candidaturaDto) {
