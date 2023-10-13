@@ -26,4 +26,8 @@ public class CandidaturaInputDto {
     @Valid
     @NotNull
     private PlataformaIdDto plataforma;
+
+    @Valid
+    @NotNull
+    private TecnologiaIdDto tecnologia;
 }
