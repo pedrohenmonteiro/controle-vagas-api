@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.mont.controlevagas.domain.exceptions.BadRequestException;
 import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.exceptions.ExceptionResponse;
+import com.mont.controlevagas.domain.exceptions.ExceptionResponse.Field;
 import com.mont.controlevagas.domain.exceptions.NotFoundException;
 
 @RestControllerAdvice
@@ -106,7 +108,32 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, message, new HttpHeaders(), status, request);
     }
 
-   
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
+        var errorMessage = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";        
+
+        var bindingResult = ex.getBindingResult().getFieldErrors();
+
+        List<ExceptionResponse.Field> fields = bindingResult.stream().map(fieldErrors -> {
+           return Field.builder()
+             .name(fieldErrors.getField())
+             .userMessage(fieldErrors.getDefaultMessage())
+             .build();
+        }).toList();
+
+        var body = ExceptionResponse.builder()
+            .timestamp(OffsetDateTime.now())
+            .status(status.value())
+            .title(HttpStatus.valueOf(status.value()).getReasonPhrase())
+            .message(errorMessage)
+            .details(request.getDescription(false))
+            .fields(fields)
+        .build();
+      
+        return handleExceptionInternal(ex, body, headers, status, request);
+    }
 
 
     // Função para juntar o nome dos campos informados no corpo da resposta caso seja mais de um
