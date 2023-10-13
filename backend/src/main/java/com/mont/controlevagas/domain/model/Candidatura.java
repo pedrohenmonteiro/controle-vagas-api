@@ -32,4 +32,8 @@ public class Candidatura {
     @ManyToOne
     @JoinColumn(name = "plataforma_id", nullable = false)
     private Plataforma plataforma;
+
+    @ManyToOne
+    @JoinColumn(name = "tecnologia_id", nullable = false)
+    private Tecnologia tecnologia;
 }
