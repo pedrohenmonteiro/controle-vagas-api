@@ -3,15 +3,17 @@ import { RxUpdate } from "react-icons/rx";
 import { SlArrowDown } from "react-icons/sl";
 import { BsBookmark } from "react-icons/bs";
 import Title from "../components/Title";
+import Navigation from "../components/Navigation";
+import Container from "../components/Container";
 
 export default function Candidaturas() {
   return (
-    <div>
+    <Container>
       <Button icon={<RxUpdate />} icon2={<SlArrowDown />}>
         Atualizar
       </Button>
-
+      <Navigation />
       <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
-    </div>
+    </Container>
   );
 }
