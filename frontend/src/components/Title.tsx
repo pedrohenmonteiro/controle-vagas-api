@@ -7,7 +7,7 @@ type TitleProps = {
 
 export default function Title({ icon, children }: TitleProps) {
   return (
-    <h1 className="flex items-center gap-2 text-xl">
+    <h1 className="flex items-center gap-2 text-2xl">
       {icon}
       {children}
     </h1>

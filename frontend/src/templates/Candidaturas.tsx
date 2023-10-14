@@ -9,11 +9,11 @@ import Container from "../components/Container";
 export default function Candidaturas() {
   return (
     <Container>
+      <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
+      <Navigation />
       <Button icon={<RxUpdate />} icon2={<SlArrowDown />}>
         Atualizar
       </Button>
-      <Navigation />
-      <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
     </Container>
   );
 }
