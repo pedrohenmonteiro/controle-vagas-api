@@ -16,7 +16,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   return (
-    <button className="bg-gray-100 py-1 px-3 flex items-center gap-2 rounded">
+    <button className="bg-gray-100 py-1 px-3 flex items-center gap-2 rounded text-xl">
       {icon}
       {!!children && <span>{children}</span>}
       {!!icon2 && (
