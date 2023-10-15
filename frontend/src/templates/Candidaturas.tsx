@@ -33,10 +33,11 @@ export default function Candidaturas() {
   const [data, setData] = useState<CandidaturasProps>()
   
   useEffect(() => {
-    fetch('http://localhost:8080/candidaturas')
+    fetch('http://localhost:8080/candidaturas/11')
     .then(response => response.json())
     .then(apiData => {
       setData(apiData); 
+      console.log(apiData)
     })
   
   }, [])
@@ -51,7 +52,7 @@ export default function Candidaturas() {
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-1">
             <Title>{data?.empresa}</Title>
-            <Text medium>data?.descricao</Text>
+            <Text medium>{data?.descricao}</Text>
             <div className="flex gap-4">
               <Text tecnologia={data?.tecnologia.nome}>{data?.tecnologia.nome}</Text>
               <Text icon={<RiMoneyDollarCircleLine />}>{data?.salario}</Text>
