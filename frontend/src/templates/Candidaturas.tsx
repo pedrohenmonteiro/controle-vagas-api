@@ -8,6 +8,11 @@ import Navigation from "../components/Navigation";
 import Container from "../components/Container";
 import Text from "../components/Text";
 
+type CandidaturasProps = {
+  
+}
+
+
 export default function Candidaturas() {
   
 

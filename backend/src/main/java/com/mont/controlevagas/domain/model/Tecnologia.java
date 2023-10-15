@@ -20,7 +20,7 @@ public class Tecnologia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    private String name;
+    private String nome;
 
     @OneToMany(mappedBy = "tecnologia")
     private List<Candidatura> candidaturas;

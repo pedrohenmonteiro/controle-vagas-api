@@ -2,6 +2,8 @@ package com.mont.controlevagas.api.dto;
 
 import java.math.BigDecimal;
 
+import com.mont.controlevagas.api.dto.input.TecnologiaIdDto;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,4 +17,5 @@ public class CandidaturaDto {
     private String status;
     private BigDecimal salario;
     private PlataformaDto plataforma;
+    private TecnologiaDto tecnologia;
 }

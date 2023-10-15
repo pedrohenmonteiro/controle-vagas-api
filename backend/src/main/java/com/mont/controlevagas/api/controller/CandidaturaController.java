@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 
 
 @RestController
-@RequestMapping(path = "/candidaturas", consumes = "application/json")
+@RequestMapping(path = "/candidaturas")
 public class CandidaturaController {
     
      @Autowired

@@ -9,5 +9,5 @@ import lombok.Setter;
 public class TecnologiaInputDto {
     
     @NotBlank
-    private String name;
+    private String nome;
 }

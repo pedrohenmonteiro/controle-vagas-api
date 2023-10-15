@@ -8,5 +8,5 @@ import lombok.Setter;
 public class TecnologiaDto {
     
     private Long id;
-    private String name;
+    private String nome;
 }

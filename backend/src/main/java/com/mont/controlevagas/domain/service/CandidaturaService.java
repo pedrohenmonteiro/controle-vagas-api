@@ -18,6 +18,7 @@ import com.mont.controlevagas.domain.model.Candidatura;
 import com.mont.controlevagas.domain.model.CandidaturaStatus;
 import com.mont.controlevagas.domain.repository.CandidaturaRepository;
 import com.mont.controlevagas.domain.repository.PlataformaRepository;
+import com.mont.controlevagas.domain.repository.TecnologiaRepository;
 
 @Service
 public class CandidaturaService {
@@ -30,6 +31,9 @@ public class CandidaturaService {
 
     @Autowired
     private PlataformaRepository plataformaRepository;
+
+     @Autowired
+    private TecnologiaRepository tecnologiaRepository;
 
     public List<CandidaturaDto> findAll() {
         return candidaturaMapper.toCollectionDto(candidaturaRepository.findAll());
@@ -44,6 +48,7 @@ public class CandidaturaService {
         try {
             var candidatura = candidaturaMapper.toEntity(candidaturaDto);
         setPlataforma(candidatura);
+        setTecnologia(candidatura);
 
         var candidaturaStatus = candidaturaDto.getStatus();
         var valores = CandidaturaStatus.values();
@@ -87,6 +92,12 @@ public class CandidaturaService {
         var plataformaId = candidatura.getPlataforma().getId();
         var plataforma = plataformaRepository.findById(plataformaId).orElseThrow(() -> new BadRequestException("Recurso plataforma de id %^d, não foi encontrado"));
         candidatura.setPlataforma(plataforma);
+    }
+
+    private void setTecnologia(Candidatura candidatura) {
+        var tecnologiaId = candidatura.getTecnologia().getId();
+        var tecnologia = tecnologiaRepository.findById(tecnologiaId).orElseThrow(() -> new BadRequestException("Recurso tecnologia de id %^d, não foi encontrado"));
+        candidatura.setTecnologia(tecnologia);
     }
 
     
