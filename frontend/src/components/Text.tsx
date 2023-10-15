@@ -1,5 +1,5 @@
 export type TecnologiaProps = {
-  tecnologia?: keyof typeof tecnologias;
+  tecnologia?: keyof typeof tecnologias | string;
 };
 
 type TextProps = {
@@ -19,22 +19,20 @@ const tecnologias = {
   Elixir: "border-fuchsia-600",
   Golang: "border-cyan-500",
   C: "border-indigo-800",
-  undefined: "border-green-500",
+  other: "border-sky-400"
 };
 
 export default function Text({
   icon,
-  tecnologia = "undefined",
+  tecnologia,
   children,
 }: TextProps) {
-  console.log(tecnologias[tecnologia]);
-
   return (
     <div className="flex items-center text-lg gap-2 text-gray-600">
       {!tecnologia && icon}
       {tecnologia && (
         <div
-          className={`bg-transparent border-[2px] rounded-full p-[6px] ${tecnologias[tecnologia]}`}
+          className={`bg-transparent border-[2px] rounded-full p-[6px] ${tecnologias[tecnologia as keyof typeof tecnologias] || tecnologias.other}`}
         ></div>
       )}
       <span>{children}</span>
