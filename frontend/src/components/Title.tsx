@@ -9,7 +9,7 @@ type TitleProps = {
 export default function Title({ icon, children, bold }: TitleProps) {
   return (
     <h1
-      className={`flex items-center gap-2 text-2xl ${bold ? "font-bold" : ""}`}
+      className={`flex items-center gap-2 text-xl ${bold ? "font-bold" : ""}`}
     >
       {icon}
       {children}

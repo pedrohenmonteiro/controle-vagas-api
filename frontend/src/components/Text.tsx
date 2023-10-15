@@ -5,6 +5,7 @@ export type TecnologiaProps = {
 type TextProps = {
   icon?: JSX.Element;
   children: React.ReactNode;
+  medium?: boolean;
 } & TecnologiaProps;
 
 const tecnologias = {
@@ -26,13 +27,15 @@ export default function Text({
   icon,
   tecnologia,
   children,
+  medium
 }: TextProps) {
   return (
-    <div className="flex items-center text-lg gap-2 text-gray-600">
+    <div className={`flex items-center gap-1 text-gray-600 ${medium ? "text-base" : "text-sm"}` }>
       {!tecnologia && icon}
       {tecnologia && (
         <div
-          className={`bg-transparent border-[2px] rounded-full p-[6px] ${tecnologias[tecnologia as keyof typeof tecnologias] || tecnologias.other}`}
+          className={`bg-transparent border-[2px] 
+          rounded-full p-[4px] ${tecnologias[tecnologia as keyof typeof tecnologias] || tecnologias.other}`}
         ></div>
       )}
       <span>{children}</span>

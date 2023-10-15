@@ -13,22 +13,34 @@ export default function Candidaturas() {
 
   return (
     <Container className="h-screen">
-      <div className="shadow-lg flex flex-col gap-4 p-6 m-12">
+      <div className="shadow-lg flex flex-col gap-8 p-6 m-12">
       <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
       <Navigation />
       
-      <div>
-        <Title>Desenvolvedor Backend</Title>
-        <p className="text-lg gap-2 text-gray-600">Vaga de desenvolvimento Backend</p>
-
-        <div>
-        <Text icon={<RiMoneyDollarCircleLine />} tecnologia="Java">
-        Java
-      </Text>
-
-      <Text icon={<RiMoneyDollarCircleLine />} tecnologia="Loc"> 2.5k mês</Text>
-      <Text>ofodo</Text>
+      <div className="flex items-start justify-between">
+        <div className="flex flex-col gap-1">
+            <Title>Desenvolvedor Backend</Title>
+            <Text medium>Vaga de desenvolvimento backend</Text>
+            <div className="flex gap-4">
+              <Text tecnologia="Java">Java</Text>
+              <Text icon={<RiMoneyDollarCircleLine />}> 2.5k mês</Text>
+              <Text>LinkedIn</Text>
+            </div>
         </div>
+              <Button icon={<RxUpdate />} icon2={<SlArrowDown />}>Atualizar</Button>
+      </div>
+
+      <div className="flex items-start justify-between">
+        <div className="flex flex-col gap-1">
+            <Title>Desenvolvedor Backend</Title>
+            <Text medium>Vaga de desenvolvimento backend</Text>
+            <div className="flex gap-4">
+              <Text tecnologia="Java">Java</Text>
+              <Text icon={<RiMoneyDollarCircleLine />}> 2.5k mês</Text>
+              <Text>LinkedIn</Text>
+            </div>
+        </div>
+              <Button icon={<RxUpdate />} icon2={<SlArrowDown />}>Atualizar</Button>
       </div>
 
       
