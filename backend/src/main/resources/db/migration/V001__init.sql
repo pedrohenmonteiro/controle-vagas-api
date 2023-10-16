@@ -1,4 +1,4 @@
-create table candidatura (salario decimal(38,2), status tinyint, id bigint not null auto_increment, plataforma_id bigint not null, tecnologia_id bigint not null, descricao varchar(255), empresa varchar(255), primary key (id)) engine=InnoDB;
+create table candidatura (salario decimal(38,2), status varchar(10), id bigint not null auto_increment, plataforma_id bigint not null, tecnologia_id bigint not null, descricao varchar(255), empresa varchar(255), primary key (id)) engine=InnoDB;
 create table permissao (id bigint not null auto_increment, descricao varchar(255), nome varchar(255), primary key (id)) engine=InnoDB;
 create table plataforma (id bigint not null auto_increment, nome varchar(255), primary key (id)) engine=InnoDB;
 create table tecnologia (id bigint not null auto_increment, nome varchar(255), primary key (id)) engine=InnoDB;
