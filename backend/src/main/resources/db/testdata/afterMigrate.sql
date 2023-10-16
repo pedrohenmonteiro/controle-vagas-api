@@ -26,7 +26,7 @@ INSERT INTO tecnologia (id, nome) VALUES
 (3, 'C++');
 
 INSERT INTO permissao (id, descricao, nome) VALUES
-(1, 'Permite acesso de leitura e gravaçao para todos os recursos', 'ADMIN'),
+(1, 'Permite acesso de leitura e gravaçao para todos os recursos', 'ADMIN');
 
 INSERT INTO usuario (id, email, nome, senha) VALUES
 (1, 'usuario1@example.com', 'Usuário 1', 'senha123'),
@@ -41,6 +41,4 @@ INSERT INTO candidatura (id, salario, status, plataforma_id, tecnologia_id, desc
 
 INSERT INTO usuario_permissao (permissao_id, usuario_id) VALUES
 (1, 1),
-(2, 1),
-(2, 2),
-(3, 3);
+(1, 2);

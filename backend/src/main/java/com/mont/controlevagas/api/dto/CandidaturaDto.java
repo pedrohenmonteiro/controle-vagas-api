@@ -2,8 +2,6 @@ package com.mont.controlevagas.api.dto;
 
 import java.math.BigDecimal;
 
-import com.mont.controlevagas.api.dto.input.TecnologiaIdDto;
-
 import lombok.Getter;
 import lombok.Setter;
 
