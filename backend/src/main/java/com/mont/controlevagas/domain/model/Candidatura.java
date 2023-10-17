@@ -1,6 +1,7 @@
 package com.mont.controlevagas.domain.model;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,4 +37,6 @@ public class Candidatura {
     @ManyToOne
     @JoinColumn(name = "tecnologia_id", nullable = false)
     private Tecnologia tecnologia;
+
+    private OffsetDateTime criadoEm;
 }

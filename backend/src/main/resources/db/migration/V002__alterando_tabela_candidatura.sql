@@ -1,0 +1,1 @@
+ALTER TABLE candidatura ADD criado_em DATETIME(6) NOT NULL;
