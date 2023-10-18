@@ -39,8 +39,8 @@ export default function Candidaturas() {
 
   return (
     data && (
-      <Container className="h-screen">
-        <div className="shadow-lg flex flex-col gap-8 p-6 m-12">
+      <Container className="h-full">
+        <div className="shadow-lg flex flex-col gap-8 p-6 m-12 rounded-3xl bg-white">
           <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
           <Navigation />
 
