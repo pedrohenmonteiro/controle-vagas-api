@@ -1,8 +1,6 @@
-import React, { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes } from "react";
 
-type ButtonTypes =
-  | AnchorHTMLAttributes<HTMLAnchorElement>
-  | ButtonHTMLAttributes<HTMLButtonElement>;
+type ButtonTypes = ButtonHTMLAttributes<HTMLButtonElement>;
 
 type ButtonProps = {
   icon?: JSX.Element;
@@ -16,7 +14,10 @@ export default function Button({
   ...props
 }: ButtonProps) {
   return (
-    <button className="bg-gray-100 py-1 px-3 flex items-center gap-2 rounded text-base">
+    <button
+      className="bg-gray-100 py-1 px-3 flex items-center gap-2 rounded text-base disabled:opacity-60"
+      {...props}
+    >
       {icon}
       {!!children && <span>{children}</span>}
       {!!icon2 && (
