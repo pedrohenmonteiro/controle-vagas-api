@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mont.controlevagas.api.dto.CandidaturaDto;
 import com.mont.controlevagas.api.dto.input.CandidaturaInputDto;
+import com.mont.controlevagas.domain.model.CandidaturaStatus;
 import com.mont.controlevagas.domain.service.CandidaturaService;
 
 import jakarta.validation.Valid;
@@ -32,6 +34,12 @@ public class CandidaturaController {
     public ResponseEntity<List<CandidaturaDto>> findAll() {
 
         return ResponseEntity.status(HttpStatus.OK).body(candidaturaService.findAll());
+    }
+
+    @GetMapping("/by-status")
+    public ResponseEntity<List<CandidaturaDto>> findByStatus(@RequestParam CandidaturaStatus status) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(candidaturaService.findByStatus(status));
     }
 
     @GetMapping("/{candidaturaId}")

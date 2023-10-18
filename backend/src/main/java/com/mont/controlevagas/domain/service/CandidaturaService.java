@@ -39,6 +39,10 @@ public class CandidaturaService {
         return candidaturaMapper.toCollectionDto(candidaturaRepository.findAll());
     }
 
+    public List<CandidaturaDto> findByStatus(CandidaturaStatus status) {
+        return candidaturaMapper.toCollectionDto(candidaturaRepository.findByStatus(status));
+    }
+
     public CandidaturaDto findById(Long id) {
         return candidaturaMapper.toDto(findOrFail(id));
     }
