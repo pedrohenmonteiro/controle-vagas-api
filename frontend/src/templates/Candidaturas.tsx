@@ -37,7 +37,6 @@ export default function Candidaturas() {
       .then((response) => response.json())
       .then((apiData) => {
         setData(apiData);
-        console.log(apiData);
       });
   }, []);
 

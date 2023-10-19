@@ -13,7 +13,7 @@ export default function TextField({
   icon,
   label,
   name,
-  initialValue = "teste",
+  initialValue = "",
   error,
   onInputChange,
   ...props
