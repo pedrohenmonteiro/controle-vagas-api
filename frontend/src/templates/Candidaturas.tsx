@@ -10,6 +10,7 @@ import Text from "../components/Text";
 import { useEffect, useState } from "react";
 import TextField from "../components/TextField";
 import Modal from "../components/Modal";
+import FormCandidacy from "../components/FormCandidacy";
 
 type CandidaturasProps = {
   id: number;
@@ -77,7 +78,7 @@ export default function Candidaturas() {
       </Container>
       <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
         {" "}
-        <TextField />
+        <FormCandidacy />
       </Modal>
     </div>
   );

@@ -28,7 +28,7 @@ export default function TextField({
   };
 
   return (
-    <div>
+    <div className="w-full">
       {!!label && <label className="pointer text-sm">{label}</label>}
       <div className="flex items-center bg-gray-100 rounded-md px-1 py-2 border-[1px] border-gray-300 focus:border-2 focus-within:bg-gray-50 ">
         <input
