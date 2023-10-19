@@ -22,7 +22,11 @@ export default function Select({
       {!!label && <label htmlFor={labelFor}>{label}</label>}
       <select name="tecnologias" id="tecnologias" {...props}>
         {selectValues?.map((selectValue) => {
-          return <option value={selectValue.id}>{selectValue.nome}</option>;
+          return (
+            <option key={selectValue.id} value={selectValue.id}>
+              {selectValue.nome}
+            </option>
+          );
         })}
       </select>
     </div>

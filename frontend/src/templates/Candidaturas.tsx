@@ -29,14 +29,14 @@ type CandidaturasProps = {
 };
 
 export default function Candidaturas() {
-  const [data, setData] = useState<CandidaturasProps[]>();
+  const [candidatura, setCandidatura] = useState<CandidaturasProps[]>();
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:8080/candidaturas")
       .then((response) => response.json())
-      .then((apiData) => {
-        setData(apiData);
+      .then((apicandidatura) => {
+        setCandidatura(apicandidatura);
       });
   }, []);
 
@@ -47,20 +47,23 @@ export default function Candidaturas() {
           <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
           <Navigation />
 
-          {data?.map((data) => {
+          {candidatura?.map((candidatura) => {
             return (
-              <div className="flex items-start justify-between">
+              <div
+                key={candidatura?.id}
+                className="flex items-start justify-between"
+              >
                 <div className="flex flex-col gap-1">
-                  <Title>{data?.empresa}</Title>
-                  <Text medium>{data?.descricao}</Text>
+                  <Title>{candidatura?.empresa}</Title>
+                  <Text medium>{candidatura?.descricao}</Text>
                   <div className="flex gap-4">
-                    <Text tecnologia={data?.tecnologia.nome}>
-                      {data?.tecnologia.nome}
+                    <Text tecnologia={candidatura?.tecnologia.nome}>
+                      {candidatura?.tecnologia.nome}
                     </Text>
                     <Text icon={<RiMoneyDollarCircleLine />}>
-                      {data?.salario}
+                      {candidatura?.salario}
                     </Text>
-                    <Text>{data?.plataforma.nome}</Text>
+                    <Text>{candidatura?.plataforma.nome}</Text>
                   </div>
                 </div>
                 <Button
