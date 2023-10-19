@@ -9,6 +9,7 @@ import Container from "../components/Container";
 import Text from "../components/Text";
 import { useEffect, useState } from "react";
 import TextField from "../components/TextField";
+import Modal from "../components/Modal";
 
 type CandidaturasProps = {
   id: number;
@@ -28,6 +29,7 @@ type CandidaturasProps = {
 
 export default function Candidaturas() {
   const [data, setData] = useState<CandidaturasProps[]>();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:8080/candidaturas")
@@ -39,14 +41,13 @@ export default function Candidaturas() {
   }, []);
 
   return (
-    data && (
+    <div>
       <Container className="h-full">
-        <TextField />
         <div className="shadow-lg flex flex-col gap-8 p-6 m-12 rounded-3xl bg-white">
           <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
           <Navigation />
 
-          {data.map((data) => {
+          {data?.map((data) => {
             return (
               <div className="flex items-start justify-between">
                 <div className="flex flex-col gap-1">
@@ -62,7 +63,11 @@ export default function Candidaturas() {
                     <Text>{data?.plataforma.nome}</Text>
                   </div>
                 </div>
-                <Button icon={<RxUpdate />} icon2={<SlArrowDown />}>
+                <Button
+                  icon={<RxUpdate />}
+                  icon2={<SlArrowDown />}
+                  onClick={() => setShowModal(true)}
+                >
                   Atualizar
                 </Button>
               </div>
@@ -70,6 +75,10 @@ export default function Candidaturas() {
           })}
         </div>
       </Container>
-    )
+      <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
+        {" "}
+        <TextField />
+      </Modal>
+    </div>
   );
 }
