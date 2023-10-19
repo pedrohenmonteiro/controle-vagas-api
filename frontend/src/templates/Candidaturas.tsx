@@ -8,6 +8,7 @@ import Navigation from "../components/Navigation";
 import Container from "../components/Container";
 import Text from "../components/Text";
 import { useEffect, useState } from "react";
+import TextField from "../components/TextField";
 
 type CandidaturasProps = {
   id: number;
@@ -40,6 +41,7 @@ export default function Candidaturas() {
   return (
     data && (
       <Container className="h-full">
+        <TextField />
         <div className="shadow-lg flex flex-col gap-8 p-6 m-12 rounded-3xl bg-white">
           <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
           <Navigation />
