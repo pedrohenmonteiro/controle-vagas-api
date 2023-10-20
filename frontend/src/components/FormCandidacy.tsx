@@ -29,11 +29,22 @@ export default function FormCandidacy() {
     descricao: "",
     salario: "",
     plataforma: "",
-    tecnologia: "",
+    tecnologia: {
+      id: null,
+    },
   });
 
   const handleInput = (field: string, value: string) => {
     setValues((s) => ({ ...s, [field]: value }));
+  };
+
+  const handleSelect = (field: string, value: string) => {
+    setValues((s) => ({
+      ...s,
+      [field]: {
+        id: +value,
+      },
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,7 +76,11 @@ export default function FormCandidacy() {
           onInputChange={(v) => handleInput("descricao", v)}
         />
         <div className="flex gap-4">
-          <Select selectValues={tecnologies} label="Selecione a tecnologia" />
+          <Select
+            selectValues={tecnologies}
+            label="Selecione a tecnologia"
+            onSelectChange={(v) => handleSelect("tecnologia", v)}
+          />
           <Select selectValues={platforms} label="Selecione a plataforma" />
         </div>
 
