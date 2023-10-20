@@ -6,11 +6,16 @@ import Title from "./Title";
 
 type FormCandidacyProps = {
   candidaturaId: number;
+  onClose: () => void;
 };
 
-export default function FormCandidacy({ candidaturaId }: FormCandidacyProps) {
+export default function FormCandidacy({
+  candidaturaId,
+  onClose,
+}: FormCandidacyProps) {
   const [tecnologies, setTecnologies] = useState();
   const [platforms, setPlatforms] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:8080/tecnologias")
@@ -56,6 +61,7 @@ export default function FormCandidacy({ candidaturaId }: FormCandidacyProps) {
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -70,14 +76,15 @@ export default function FormCandidacy({ candidaturaId }: FormCandidacyProps) {
       );
 
       if (!response.ok) {
-        throw new Error("Erro na solicitação POST");
+        throw new Error("Erro na solicitação PUT");
       }
 
-      const data = await response.json();
-      console.log("Solicitação POST bem-sucedida", data);
+      onClose();
     } catch (error) {
-      console.error("Erro ao enviar a solicitação POST", error);
+      console.error("Erro ao enviar a solicitação PUT", error);
       console.log(values);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,9 +124,15 @@ export default function FormCandidacy({ candidaturaId }: FormCandidacyProps) {
           />
         </div>
 
-        <Button color="blue" bold type="submit">
-          Salvar
-        </Button>
+        {!loading ? (
+          <Button color="blue" bold type="submit">
+            Salvar
+          </Button>
+        ) : (
+          <Button color="blue" bold disabled>
+            Salvar
+          </Button>
+        )}
       </div>
     </form>
   );

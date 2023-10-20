@@ -85,7 +85,10 @@ export default function Candidaturas() {
       </Container>
       <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
         {" "}
-        <FormCandidacy candidaturaId={candidaturaId} />
+        <FormCandidacy
+          candidaturaId={candidaturaId}
+          onClose={() => setShowModal(false)}
+        />
       </Modal>
     </div>
   );
