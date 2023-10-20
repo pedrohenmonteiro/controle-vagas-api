@@ -3,14 +3,15 @@ import Button from "./Button";
 import Select, { SelectProps } from "./Select";
 import TextField from "./TextField";
 import Title from "./Title";
+import { CandidaturasProps } from "../templates/Candidaturas";
 
 type FormCandidacyProps = {
-  candidaturaId: number;
+  candidatura: CandidaturasProps;
   onClose: () => void;
 };
 
 export default function FormCandidacy({
-  candidaturaId,
+  candidatura,
   onClose,
 }: FormCandidacyProps) {
   const [tecnologies, setTecnologies] = useState();
@@ -65,7 +66,7 @@ export default function FormCandidacy({
 
     try {
       const response = await fetch(
-        "http://localhost:8080/candidaturas/" + candidaturaId,
+        "http://localhost:8080/candidaturas/" + candidatura?.id,
         {
           method: "PUT",
           headers: {
@@ -96,30 +97,34 @@ export default function FormCandidacy({
           <TextField
             name="empresa"
             label="Empresa"
+            initialValue={candidatura?.empresa}
             onInputChange={(v) => handleInput("empresa", v)}
           />
           <TextField
             name="salario"
             label="Salario"
             type="number"
-            initialValue=""
+            initialValue={candidatura?.salario}
             onInputChange={(v) => handleInput("salario", v)}
           />
         </div>
         <TextField
           name="descricao"
           label="Descricao"
+          initialValue={candidatura?.descricao}
           onInputChange={(v) => handleInput("descricao", v)}
         />
         <div className="flex gap-4">
           <Select
             selectValues={tecnologies}
             label="Selecione a tecnologia"
+            initialValue={candidatura?.tecnologia.nome}
             onSelectChange={(v) => handleSelect("tecnologia", v)}
           />
           <Select
             selectValues={platforms}
             label="Selecione a plataforma"
+            initialValue={candidatura?.plataforma.nome}
             onSelectChange={(v) => handleSelect("plataforma", v)}
           />
         </div>

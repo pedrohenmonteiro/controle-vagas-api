@@ -12,7 +12,7 @@ import TextField from "../components/TextField";
 import Modal from "../components/Modal";
 import FormCandidacy from "../components/FormCandidacy";
 
-type CandidaturasProps = {
+export type CandidaturasProps = {
   id: number;
   empresa: string;
   descricao: string;
@@ -20,19 +20,32 @@ type CandidaturasProps = {
   salario: number;
   plataforma: {
     id: number;
-    nome: string;
+    nome?: string;
   };
   tecnologia: {
     id: number;
-    nome: string;
+    nome?: string;
   };
-};
+} | null;
 
 export default function Candidaturas() {
   const [candidatura, setCandidatura] = useState<CandidaturasProps[]>();
   const [showModal, setShowModal] = useState(false);
 
-  const [candidaturaId, setCandidaturaId] = useState(0);
+  const [candidaturaSelected, setCandidaturaSelected] =
+    useState<CandidaturasProps>({
+      id: 0,
+      empresa: "",
+      descricao: "",
+      salario: 0,
+      status: "EM_ANALISE",
+      plataforma: {
+        id: 0,
+      },
+      tecnologia: {
+        id: 0,
+      },
+    });
 
   useEffect(() => {
     fetch("http://localhost:8080/candidaturas")
@@ -73,7 +86,7 @@ export default function Candidaturas() {
                   icon2={<SlArrowDown />}
                   onClick={() => {
                     setShowModal(true);
-                    setCandidaturaId(candidatura.id);
+                    setCandidaturaSelected(candidatura);
                   }}
                 >
                   Atualizar
@@ -86,8 +99,11 @@ export default function Candidaturas() {
       <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
         {" "}
         <FormCandidacy
-          candidaturaId={candidaturaId}
-          onClose={() => setShowModal(false)}
+          candidatura={candidaturaSelected}
+          onClose={() => {
+            setShowModal(false);
+            setCandidaturaSelected(null);
+          }}
         />
       </Modal>
     </div>

@@ -32,7 +32,7 @@ export default function Select({
     <div className="flex flex-col justify-start">
       {!!label && <label htmlFor={labelFor}>{label}</label>}
       <select
-        value={initialValue}
+        value={select}
         onChange={onChange}
         name="tecnologias"
         id="tecnologias"

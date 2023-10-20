@@ -3,7 +3,7 @@ import { InputHTMLAttributes, useState } from "react";
 type TextFieldProps = {
   onInputChange?: (value: string) => void;
   label?: string;
-  initialValue?: string;
+  initialValue?: string | number;
   icon?: React.ReactNode;
   disabled?: boolean;
   error?: string;
