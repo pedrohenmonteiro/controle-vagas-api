@@ -3,6 +3,8 @@ package com.mont.controlevagas.domain.model;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -40,5 +42,6 @@ public class Candidatura {
     @JoinColumn(name = "tecnologia_id", nullable = false)
     private Tecnologia tecnologia;
 
+    @CreationTimestamp
     private OffsetDateTime criadoEm;
 }

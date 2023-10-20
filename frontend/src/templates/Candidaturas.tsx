@@ -32,6 +32,8 @@ export default function Candidaturas() {
   const [candidatura, setCandidatura] = useState<CandidaturasProps[]>();
   const [showModal, setShowModal] = useState(false);
 
+  const [candidaturaId, setCandidaturaId] = useState(0);
+
   useEffect(() => {
     fetch("http://localhost:8080/candidaturas")
       .then((response) => response.json())
@@ -69,7 +71,10 @@ export default function Candidaturas() {
                 <Button
                   icon={<RxUpdate />}
                   icon2={<SlArrowDown />}
-                  onClick={() => setShowModal(true)}
+                  onClick={() => {
+                    setShowModal(true);
+                    setCandidaturaId(candidatura.id);
+                  }}
                 >
                   Atualizar
                 </Button>
@@ -80,7 +85,7 @@ export default function Candidaturas() {
       </Container>
       <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
         {" "}
-        <FormCandidacy />
+        <FormCandidacy candidaturaId={candidaturaId} />
       </Modal>
     </div>
   );

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import com.mont.controlevagas.api.dto.CandidaturaDto;
 import com.mont.controlevagas.api.dto.input.CandidaturaInputDto;
 import com.mont.controlevagas.domain.model.Candidatura;
+import com.mont.controlevagas.domain.model.Plataforma;
+import com.mont.controlevagas.domain.model.Tecnologia;
 
 @Component
 public class CandidaturaMapper {
@@ -29,6 +31,12 @@ public class CandidaturaMapper {
     }
 
     public void copyToDomainObject(CandidaturaInputDto candidaturaDto, Candidatura candidatura) {
+
+        // Para evitar exceçao org.hibernate.HibernateException: 
+        // identifier of an instance of com.mont.controlevagas.domain.model.Plataforma was altered from 2 to 1
+        candidatura.setPlataforma(new Plataforma());
+        candidatura.setTecnologia(new Tecnologia());
+
         modelMapper.map(candidaturaDto, candidatura);
     }
 }

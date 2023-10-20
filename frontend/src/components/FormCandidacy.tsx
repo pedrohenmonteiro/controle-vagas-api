@@ -4,7 +4,11 @@ import Select, { SelectProps } from "./Select";
 import TextField from "./TextField";
 import Title from "./Title";
 
-export default function FormCandidacy() {
+type FormCandidacyProps = {
+  candidaturaId: number;
+};
+
+export default function FormCandidacy({ candidaturaId }: FormCandidacyProps) {
   const [tecnologies, setTecnologies] = useState();
   const [platforms, setPlatforms] = useState();
 
@@ -28,7 +32,10 @@ export default function FormCandidacy() {
     empresa: "",
     descricao: "",
     salario: "",
-    plataforma: "",
+    status: "EM_ANALISE",
+    plataforma: {
+      id: null,
+    },
     tecnologia: {
       id: null,
     },
@@ -47,9 +54,31 @@ export default function FormCandidacy() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(values);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/candidaturas/" + candidaturaId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro na solicitação POST");
+      }
+
+      const data = await response.json();
+      console.log("Solicitação POST bem-sucedida", data);
+    } catch (error) {
+      console.error("Erro ao enviar a solicitação POST", error);
+      console.log(values);
+    }
   };
 
   return (
@@ -66,7 +95,7 @@ export default function FormCandidacy() {
             name="salario"
             label="Salario"
             type="number"
-            initialValue="0.00"
+            initialValue=""
             onInputChange={(v) => handleInput("salario", v)}
           />
         </div>
@@ -81,7 +110,11 @@ export default function FormCandidacy() {
             label="Selecione a tecnologia"
             onSelectChange={(v) => handleSelect("tecnologia", v)}
           />
-          <Select selectValues={platforms} label="Selecione a plataforma" />
+          <Select
+            selectValues={platforms}
+            label="Selecione a plataforma"
+            onSelectChange={(v) => handleSelect("plataforma", v)}
+          />
         </div>
 
         <Button color="blue" bold type="submit">
