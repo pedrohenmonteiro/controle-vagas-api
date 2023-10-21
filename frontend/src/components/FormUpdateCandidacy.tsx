@@ -5,15 +5,15 @@ import TextField from "./TextField";
 import Title from "./Title";
 import { CandidaturasProps } from "../templates/Candidaturas";
 
-type FormCandidacyProps = {
+type FormUpdateCandidacyProps = {
   candidatura: CandidaturasProps;
   onClose: () => void;
 };
 
-export default function FormCandidacy({
+export default function FormUpdateCandidacy({
   candidatura,
   onClose,
-}: FormCandidacyProps) {
+}: FormUpdateCandidacyProps) {
   const [tecnologies, setTecnologies] = useState();
   const [platforms, setPlatforms] = useState();
   const [loading, setLoading] = useState(false);

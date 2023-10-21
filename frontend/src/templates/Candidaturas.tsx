@@ -8,9 +8,8 @@ import Navigation from "../components/Navigation";
 import Container from "../components/Container";
 import Text from "../components/Text";
 import { useEffect, useState } from "react";
-import TextField from "../components/TextField";
 import Modal from "../components/Modal";
-import FormCandidacy from "../components/FormCandidacy";
+import FormUpdateCandidacy from "../components/FormUpdateCandidacy";
 
 export type CandidaturasProps = {
   id: number;
@@ -98,7 +97,7 @@ export default function Candidaturas() {
       </Container>
       <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
         {" "}
-        <FormCandidacy
+        <FormUpdateCandidacy
           candidatura={candidaturaSelected}
           onClose={() => {
             setShowModal(false);
