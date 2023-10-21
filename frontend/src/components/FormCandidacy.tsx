@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import Button from "./Button";
-import Select, { SelectProps } from "./Select";
 import TextField from "./TextField";
 import Title from "./Title";
 import { CandidaturasProps } from "../templates/Candidaturas";
+import Select from "./Select";
 
-type FormUpdateCandidacyProps = {
+type FormCandidacyProps = {
   candidatura: CandidaturasProps;
   onClose: () => void;
 };
 
-export default function FormUpdateCandidacy({
+export default function FormCandidacy({
   candidatura,
   onClose,
-}: FormUpdateCandidacyProps) {
+}: FormCandidacyProps) {
   const [tecnologies, setTecnologies] = useState();
   const [platforms, setPlatforms] = useState();
   const [loading, setLoading] = useState(false);
@@ -35,18 +35,17 @@ export default function FormUpdateCandidacy({
   }, []);
 
   const [values, setValues] = useState({
-    empresa: "",
-    descricao: "",
-    salario: "",
+    empresa: candidatura?.empresa || "",
+    descricao: candidatura?.descricao || "",
+    salario: candidatura?.salario || "",
     status: "EM_ANALISE",
     plataforma: {
-      id: null,
+      id: candidatura?.plataforma?.id || null,
     },
     tecnologia: {
-      id: null,
+      id: candidatura?.tecnologia?.id || null,
     },
   });
-
   const handleInput = (field: string, value: string) => {
     setValues((s) => ({ ...s, [field]: value }));
   };
@@ -60,15 +59,20 @@ export default function FormUpdateCandidacy({
     }));
   };
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
+  const request = async () => {
+    let method = "PUT";
+
+    if (candidatura?.id == null) {
+      method = "POST";
+    }
 
     try {
       const response = await fetch(
-        "http://localhost:8080/candidaturas/" + candidatura?.id,
+        `http://localhost:8080/candidaturas${
+          method.includes("PUT") ? "/" + candidatura?.id : ""
+        }`,
         {
-          method: "PUT",
+          method: method,
           headers: {
             "Content-Type": "application/json",
           },
@@ -77,16 +81,23 @@ export default function FormUpdateCandidacy({
       );
 
       if (!response.ok) {
-        throw new Error("Erro na solicitação PUT");
+        throw new Error("Erro na solicitação " + method);
       }
 
       onClose();
     } catch (error) {
-      console.error("Erro ao enviar a solicitação PUT", error);
+      console.error("Erro ao enviar a solicitação " + method, error);
       console.log(values);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    request();
   };
 
   return (

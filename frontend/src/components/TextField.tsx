@@ -3,7 +3,7 @@ import { InputHTMLAttributes, useState } from "react";
 type TextFieldProps = {
   onInputChange?: (value: string) => void;
   label?: string;
-  initialValue?: string | number;
+  initialValue?: string | number | null;
   icon?: React.ReactNode;
   disabled?: boolean;
   error?: string;
@@ -13,7 +13,7 @@ export default function TextField({
   icon,
   label,
   name,
-  initialValue = "",
+  initialValue,
   error,
   onInputChange,
   ...props
@@ -21,6 +21,8 @@ export default function TextField({
   const [value, setValue] = useState(initialValue);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(initialValue);
+    console.log(value);
     const newValue = e.currentTarget.value;
     setValue(newValue);
 

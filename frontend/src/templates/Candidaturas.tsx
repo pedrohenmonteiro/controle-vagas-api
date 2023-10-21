@@ -9,10 +9,10 @@ import Container from "../components/Container";
 import Text from "../components/Text";
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
-import FormUpdateCandidacy from "../components/FormUpdateCandidacy";
+import FormCandidacy from "../components/FormCandidacy";
 
 export type CandidaturasProps = {
-  id: number;
+  id: number | null;
   empresa: string;
   descricao: string;
   status: string;
@@ -31,20 +31,22 @@ export default function Candidaturas() {
   const [candidatura, setCandidatura] = useState<CandidaturasProps[]>();
   const [showModal, setShowModal] = useState(false);
 
-  const [candidaturaSelected, setCandidaturaSelected] =
-    useState<CandidaturasProps>({
+  const initialValue = {
+    id: null,
+    empresa: "",
+    descricao: "",
+    salario: 0,
+    status: "EM_ANALISE",
+    plataforma: {
       id: 0,
-      empresa: "",
-      descricao: "",
-      salario: 0,
-      status: "EM_ANALISE",
-      plataforma: {
-        id: 0,
-      },
-      tecnologia: {
-        id: 0,
-      },
-    });
+    },
+    tecnologia: {
+      id: 0,
+    },
+  };
+
+  const [candidaturaSelected, setCandidaturaSelected] =
+    useState<CandidaturasProps>(initialValue);
 
   useEffect(() => {
     fetch("http://localhost:8080/candidaturas")
@@ -58,7 +60,17 @@ export default function Candidaturas() {
     <div>
       <Container className="h-full">
         <div className="shadow-lg flex flex-col gap-8 p-6 m-12 rounded-3xl bg-white">
-          <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
+          <div className="flex justify-between items-center">
+            <Title icon={<BsBookmark />}>Minhas candidaturas</Title>
+            <Button
+              color="blue"
+              onClick={() => {
+                setShowModal(true);
+              }}
+            >
+              Nova Candidatura
+            </Button>
+          </div>
           <Navigation />
 
           {candidatura?.map((candidatura) => {
@@ -84,8 +96,8 @@ export default function Candidaturas() {
                   icon={<RxUpdate />}
                   icon2={<SlArrowDown />}
                   onClick={() => {
-                    setShowModal(true);
                     setCandidaturaSelected(candidatura);
+                    setShowModal(true);
                   }}
                 >
                   Atualizar
@@ -95,14 +107,19 @@ export default function Candidaturas() {
           })}
         </div>
       </Container>
-      <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
+      <Modal
+        isVisible={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setCandidaturaSelected(initialValue);
+        }}
+      >
         {" "}
-        <FormUpdateCandidacy
-          candidatura={candidaturaSelected}
+        <FormCandidacy
           onClose={() => {
             setShowModal(false);
-            setCandidaturaSelected(null);
           }}
+          candidatura={candidaturaSelected}
         />
       </Modal>
     </div>
