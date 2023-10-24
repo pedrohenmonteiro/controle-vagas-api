@@ -18,11 +18,11 @@ export type CandidaturasProps = {
   status: string;
   salario: number;
   plataforma: {
-    id: number;
+    id: number | null;
     nome?: string;
   };
   tecnologia: {
-    id: number;
+    id: number | null;
     nome?: string;
   };
 } | null;
@@ -38,10 +38,10 @@ export default function Candidaturas() {
     salario: 0,
     status: "EM_ANALISE",
     plataforma: {
-      id: 0,
+      id: null,
     },
     tecnologia: {
-      id: 0,
+      id: null,
     },
   };
 

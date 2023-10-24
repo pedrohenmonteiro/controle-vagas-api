@@ -78,7 +78,8 @@ export default function FormCandidacy({
           },
           body: JSON.stringify(values),
         }
-      );
+        );
+        console.log(values);
 
       if (!response.ok) {
         throw new Error("Erro na solicitação " + method);
@@ -87,7 +88,6 @@ export default function FormCandidacy({
       onClose();
     } catch (error) {
       console.error("Erro ao enviar a solicitação " + method, error);
-      console.log(values);
     } finally {
       setLoading(false);
     }
