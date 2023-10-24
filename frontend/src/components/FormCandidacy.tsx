@@ -108,34 +108,34 @@ export default function FormCandidacy({
           <TextField
             name="empresa"
             label="Empresa"
-            initialValue={candidatura?.empresa}
+            initialValue={values?.empresa}
             onInputChange={(v) => handleInput("empresa", v)}
           />
           <TextField
             name="salario"
             label="Salario"
             type="number"
-            initialValue={candidatura?.salario == 0 ? "" : candidatura?.salario}
+            initialValue={values?.salario == 0 ? "" : values?.salario}
             onInputChange={(v) => handleInput("salario", v)}
           />
         </div>
         <TextField
           name="descricao"
           label="Descricao"
-          initialValue={candidatura?.descricao}
+          initialValue={values?.descricao}
           onInputChange={(v) => handleInput("descricao", v)}
         />
         <div className="flex gap-4">
           <Select
             selectValues={tecnologies}
             label="Selecione a tecnologia"
-            initialValue={candidatura?.tecnologia.nome}
+            initialValue={values?.tecnologia.id?.toString()}
             onSelectChange={(v) => handleSelect("tecnologia", v)}
           />
           <Select
             selectValues={platforms}
             label="Selecione a plataforma"
-            initialValue={candidatura?.plataforma.nome}
+            initialValue={values?.plataforma.id?.toString()}
             onSelectChange={(v) => handleSelect("plataforma", v)}
           />
         </div>

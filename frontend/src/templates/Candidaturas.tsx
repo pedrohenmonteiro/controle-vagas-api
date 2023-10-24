@@ -107,14 +107,13 @@ export default function Candidaturas() {
           })}
         </div>
       </Container>
-      <Modal
+      <Modal 
         isVisible={showModal}
         onClose={() => {
           setShowModal(false);
           setCandidaturaSelected(initialValue);
         }}
       >
-        {" "}
         <FormCandidacy
           onClose={() => {
             setShowModal(false);
