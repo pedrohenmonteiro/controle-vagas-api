@@ -115,7 +115,7 @@ export default function FormCandidacy({
             name="salario"
             label="Salario"
             type="number"
-            initialValue={candidatura?.salario}
+            initialValue={candidatura?.salario == 0 ? "" : candidatura?.salario}
             onInputChange={(v) => handleInput("salario", v)}
           />
         </div>
