@@ -30,6 +30,7 @@ export type CandidaturasProps = {
 export default function Candidaturas() {
   const [candidatura, setCandidatura] = useState<CandidaturasProps[]>();
   const [showModal, setShowModal] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const initialValue = {
     id: null,
@@ -49,12 +50,14 @@ export default function Candidaturas() {
     useState<CandidaturasProps>(initialValue);
 
   useEffect(() => {
+    console.log("Pagina updata");
+
     fetch("http://localhost:8080/candidaturas")
       .then((response) => response.json())
       .then((apicandidatura) => {
         setCandidatura(apicandidatura);
       });
-  }, [candidatura]);
+  }, [formSubmitted]);
 
   return (
     <div>
@@ -117,6 +120,7 @@ export default function Candidaturas() {
         <FormCandidacy
           onClose={() => {
             setShowModal(false);
+            setFormSubmitted((value) => !value);
           }}
           candidatura={candidaturaSelected}
         />
