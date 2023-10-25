@@ -39,10 +39,10 @@ export default function Candidaturas() {
     salario: 0,
     status: "EM_ANALISE",
     plataforma: {
-      id: null,
+      id: 1,
     },
     tecnologia: {
-      id: null,
+      id: 1,
     },
   };
 
