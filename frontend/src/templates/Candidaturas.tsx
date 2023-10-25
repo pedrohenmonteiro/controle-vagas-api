@@ -54,7 +54,7 @@ export default function Candidaturas() {
       .then((apicandidatura) => {
         setCandidatura(apicandidatura);
       });
-  }, []);
+  }, [candidatura]);
 
   return (
     <div>
@@ -107,7 +107,7 @@ export default function Candidaturas() {
           })}
         </div>
       </Container>
-      <Modal 
+      <Modal
         isVisible={showModal}
         onClose={() => {
           setShowModal(false);

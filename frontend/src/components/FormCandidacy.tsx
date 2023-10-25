@@ -4,6 +4,7 @@ import TextField from "./TextField";
 import Title from "./Title";
 import { CandidaturasProps } from "../templates/Candidaturas";
 import Select from "./Select";
+import { useNavigate } from "react-router-dom";
 
 type FormCandidacyProps = {
   candidatura: CandidaturasProps;
@@ -78,8 +79,8 @@ export default function FormCandidacy({
           },
           body: JSON.stringify(values),
         }
-        );
-        console.log(values);
+      );
+      console.log(values);
 
       if (!response.ok) {
         throw new Error("Erro na solicitação " + method);
