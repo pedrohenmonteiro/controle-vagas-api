@@ -15,12 +15,17 @@ export default function FormCandidacy({
   candidatura,
   onClose,
 }: FormCandidacyProps) {
+  const API_URL = "http://localhost:8080";
+  const TECNOLOGIAS_URL = `${API_URL}/tecnologias`;
+  const PLATAFORMAS_URL = `${API_URL}/plataformas`;
+  const CANDIDATURAS_URL = `${API_URL}/candidaturas`;
+
   const [tecnologies, setTecnologies] = useState();
   const [platforms, setPlatforms] = useState();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8080/tecnologias")
+    fetch(TECNOLOGIAS_URL)
       .then((response) => response.json())
       .then((apiData) => {
         setTecnologies(apiData);
@@ -28,7 +33,7 @@ export default function FormCandidacy({
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8080/plataformas")
+    fetch(PLATAFORMAS_URL)
       .then((response) => response.json())
       .then((apiData) => {
         setPlatforms(apiData);
@@ -39,7 +44,7 @@ export default function FormCandidacy({
     empresa: candidatura?.empresa || "",
     descricao: candidatura?.descricao || "",
     salario: candidatura?.salario || "",
-    status: "EM_ANALISE",
+    status: candidatura?.status,
     plataforma: {
       id: candidatura?.plataforma?.id || null,
     },
@@ -60,45 +65,36 @@ export default function FormCandidacy({
     }));
   };
 
-  const request = async () => {
-    let method = "PUT";
-
-    if (candidatura?.id == null) {
-      method = "POST";
-    }
-
-    try {
-      const response = await fetch(
-        `http://localhost:8080/candidaturas${
-          method.includes("PUT") ? "/" + candidatura?.id : ""
-        }`,
-        {
-          method: method,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        }
-      );
-      console.log(values);
-
-      if (!response.ok) {
-        throw new Error("Erro na solicitação " + method);
-      }
-
-      onClose();
-    } catch (error) {
-      console.error("Erro ao enviar a solicitação " + method, error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
-    request();
+    const method = candidatura?.id ? "PUT" : "POST";
+
+    const url = `${CANDIDATURAS_URL}${
+      method.includes("PUT") ? `/${candidatura?.id}` : ""
+    }`;
+
+    try {
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      console.log(values);
+
+      if (!response.ok) {
+        throw new Error(`Erro na solicitação ${method}`);
+      }
+
+      onClose();
+    } catch (error) {
+      console.error(`Erro ao enviar a solicitação ${method}`, error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
