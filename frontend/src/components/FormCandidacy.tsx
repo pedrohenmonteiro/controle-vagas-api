@@ -30,9 +30,7 @@ export default function FormCandidacy({
       .then((apiData) => {
         setTecnologies(apiData);
       });
-  }, []);
 
-  useEffect(() => {
     fetch(PLATAFORMAS_URL)
       .then((response) => response.json())
       .then((apiData) => {
