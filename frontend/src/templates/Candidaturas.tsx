@@ -28,6 +28,9 @@ export type CandidaturasProps = {
 } | null;
 
 export default function Candidaturas() {
+  const API_URL = "http://localhost:8080";
+  const CANDIDATURAS_URL = `${API_URL}/candidaturas`;
+
   const [candidatura, setCandidatura] = useState<CandidaturasProps[]>();
   const [showModal, setShowModal] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -49,14 +52,22 @@ export default function Candidaturas() {
   const [candidaturaSelected, setCandidaturaSelected] =
     useState<CandidaturasProps>(initialValue);
 
-  useEffect(() => {
-    console.log("Pagina updata");
+  const fetchData = async () => {
+    try {
+      const response = await fetch(CANDIDATURAS_URL);
+      if (!response.ok) {
+        throw new Error(`Erro na solicitação GET`);
+      }
+      const data = await response.json();
+      setCandidatura(data);
+    } catch (error) {
+      console.error(`Erro ao buscar dados da API:`, error);
+    }
+  };
 
-    fetch("http://localhost:8080/candidaturas")
-      .then((response) => response.json())
-      .then((apicandidatura) => {
-        setCandidatura(apicandidatura);
-      });
+  useEffect(() => {
+    console.log("Página atualizada");
+    fetchData();
   }, [formSubmitted]);
 
   return (
