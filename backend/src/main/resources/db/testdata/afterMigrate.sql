@@ -29,9 +29,9 @@ INSERT INTO permissao (id, descricao, nome) VALUES
 (1, 'Permite acesso de leitura e gravaçao para todos os recursos', 'ADMIN');
 
 INSERT INTO usuario (id, email, nome, senha) VALUES
-(1, 'usuario1@example.com', 'Usuário 1', 'senha123'),
-(2, 'usuario2@example.com', 'Usuário 2', 'senha456'),
-(3, 'usuario3@example.com', 'Usuário 3', 'senha789');
+(1, 'usuario1@example.com', 'Usuário 1', '$2a$12$4YW7o.aWZpelu/mM6UblC.WrL5d28Yot.wPWgaWxMka.12lYMmTWi'),
+(2, 'usuario2@example.com', 'Usuário 2', '$2a$12$4YW7o.aWZpelu/mM6UblC.WrL5d28Yot.wPWgaWxMka.12lYMmTWi'),
+(3, 'usuario3@example.com', 'Usuário 3', '$2a$12$4YW7o.aWZpelu/mM6UblC.WrL5d28Yot.wPWgaWxMka.12lYMmTWi');
 
 
 INSERT INTO candidatura (id, salario, status, plataforma_id, tecnologia_id, descricao, empresa, criado_em) VALUES
