@@ -12,11 +12,13 @@ import lombok.Getter;
 @Getter
 public class AuthUser extends User {
 
+    private Long id;
     private String nome;
     
     public AuthUser(Usuario usuario, Collection<? extends GrantedAuthority> authorities) {
         super(usuario.getEmail(), usuario.getSenha(), authorities);
 
         this.nome = usuario.getNome();
+        this.id = usuario.getId();
     }
-}
+} 

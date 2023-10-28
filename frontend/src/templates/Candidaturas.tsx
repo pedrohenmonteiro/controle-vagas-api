@@ -72,7 +72,7 @@ export default function Candidaturas() {
 
   return (
     <div>
-      <Container className="h-full">
+      <Container>
         <div className="shadow-lg flex flex-col gap-8 p-6 m-12 rounded-3xl bg-white">
           <div className="flex justify-between items-center">
             <Title icon={<BsBookmark />}>Minhas candidaturas</Title>

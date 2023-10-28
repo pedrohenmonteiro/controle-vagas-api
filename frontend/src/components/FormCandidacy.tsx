@@ -135,15 +135,9 @@ export default function FormCandidacy({
           />
         </div>
 
-        {!loading ? (
-          <Button color="blue" bold type="submit">
-            Salvar
-          </Button>
-        ) : (
-          <Button color="blue" bold disabled>
-            Salvar
-          </Button>
-        )}
+        <Button color="blue" bold type="submit" disabled={loading}>
+          Salvar
+        </Button>
       </div>
     </form>
   );

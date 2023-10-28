@@ -1,3 +1,9 @@
-export default function Candidaturas() {
-  return <div>Candidaturas</div>;
+import Candidaturas from "../templates/Candidaturas";
+
+export default function CandidaturasPage() {
+  return (
+    <div>
+      <Candidaturas />
+    </div>
+  );
 }
