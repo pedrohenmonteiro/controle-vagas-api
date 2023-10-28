@@ -18,6 +18,7 @@ export default function FormSignIn() {
   };
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
     console.log(values);
 
@@ -44,6 +45,8 @@ export default function FormSignIn() {
       }
     } catch (error) {
       console.error("Erro. Tente novamente mais tarde.", error);
+    } finally {
+      setLoading(false);
     }
   };
 
