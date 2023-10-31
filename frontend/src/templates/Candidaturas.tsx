@@ -54,7 +54,12 @@ export default function Candidaturas() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(CANDIDATURAS_URL);
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(CANDIDATURAS_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error(`Erro na solicitação GET`);
       }

@@ -14,15 +14,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public @interface SecurityConstants {
 
     @interface Candidaturas {
-        @PreAuthorize("hasAuthority('dsasdc')")
-        @Target(METHOD)
-        @Retention(RUNTIME)
-        @interface PodeConsultar { }
+
 
         @PreAuthorize("@appSecurity.isAutenticado()")
         @Target(METHOD)
         @Retention(RUNTIME)
-        @interface PodeEditar { }
+        @interface LeituraEGravacao { }
     }
     
 }

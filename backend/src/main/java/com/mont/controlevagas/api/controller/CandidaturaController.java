@@ -31,7 +31,7 @@ public class CandidaturaController {
      @Autowired
     private CandidaturaService candidaturaService;
 
-    @SecurityConstants.Candidaturas.PodeConsultar
+    @SecurityConstants.Candidaturas.LeituraEGravacao
     @GetMapping
     public ResponseEntity<List<CandidaturaDto>> findAll() {
 

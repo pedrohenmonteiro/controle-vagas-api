@@ -25,13 +25,23 @@ export default function FormCandidacy({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(TECNOLOGIAS_URL)
+    const token = localStorage.getItem("access_token");
+
+    fetch(TECNOLOGIAS_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((apiData) => {
         setTecnologies(apiData);
       });
 
-    fetch(PLATAFORMAS_URL)
+    fetch(PLATAFORMAS_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((apiData) => {
         setPlatforms(apiData);
@@ -74,10 +84,14 @@ export default function FormCandidacy({
     }`;
 
     try {
+      const token = localStorage.getItem("access_token");
+      console.log(token);
+
       const response = await fetch(url, {
         method: method,
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(values),
       });
