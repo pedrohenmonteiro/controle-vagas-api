@@ -22,7 +22,10 @@ export default function FormSignIn() {
     console.log(values);
 
     try {
-      AuthService.login(values.username, values.password);
+      await AuthService.login(values.username, values.password).then(() => {
+        navigate("/candidaturas");
+        window.location.reload();
+      });
     } catch (error) {
       console.error("Erro. Tente novamente mais tarde.", error);
     } finally {
