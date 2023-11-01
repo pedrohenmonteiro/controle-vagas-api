@@ -2,9 +2,10 @@ import { useState } from "react";
 import TextField from "./TextField";
 import Button from "./Button";
 import Title from "./Title";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import AuthService from "../services/auth-services";
+import Auth from "./Auth";
 
 export default function FormSignIn() {
   const navigate = useNavigate();
@@ -35,8 +36,7 @@ export default function FormSignIn() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-col gap-5 ">
-        <Title>Entrar</Title>
+      <Auth title="Entre na sua conta">
         <TextField
           name="username"
           label="Email"
@@ -50,9 +50,16 @@ export default function FormSignIn() {
         />
 
         <Button color="blue" bold type="submit" disabled={loading}>
-          Salvar
+          Entrar
         </Button>
-      </div>
+
+        <div className="text-sm text-center text-gray-900 ">
+          Não tem uma conta?{" "}
+          <Link to="/cadastro">
+            <a className="text-emerald-600 underline">Cadastre-se</a>
+          </Link>
+        </div>
+      </Auth>
     </form>
   );
 }
