@@ -4,14 +4,13 @@ import Button from "./Button";
 import Title from "./Title";
 import { useNavigate } from "react-router-dom";
 
+import AuthService from "../services/auth-services";
+
 export default function FormSignIn() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({ username: "", password: "" });
-
-  const clientId = "myclientid";
-  const clientSecret = "myclientsecret";
 
   const handleInput = (field: string, value: string) => {
     setValues((s) => ({ ...s, [field]: value }));
@@ -23,26 +22,7 @@ export default function FormSignIn() {
     console.log(values);
 
     try {
-      const response = await fetch("http://localhost:8080/oauth2/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
-        },
-        body: `grant_type=password&username=${values.username}&password=${values.password}`,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        const token = data.access_token;
-
-        navigate("/candidaturas");
-
-        localStorage.setItem("access_token", token);
-      } else {
-        console.error("Erro de autenticação");
-      }
+      AuthService.login(values.username, values.password);
     } catch (error) {
       console.error("Erro. Tente novamente mais tarde.", error);
     } finally {
