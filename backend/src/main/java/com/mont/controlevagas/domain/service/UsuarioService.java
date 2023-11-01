@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mont.controlevagas.api.dto.UsuarioDto;
@@ -23,6 +25,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioMapper usuarioMapper;
 
+    @Autowired
+	private PasswordEncoder passwordEncoder;
+
     public List<UsuarioDto> findAll() {
         return usuarioMapper.toCollectionDto(usuarioRepository.findAll());
     }
@@ -34,12 +39,16 @@ public class UsuarioService {
 
     public UsuarioDto create(UsuarioInputDto usuarioDto) {
         var usuario = usuarioMapper.toEntity(usuarioDto);
+
+        
        
 
         Optional<Usuario> userExistente = usuarioRepository.findByEmail(usuarioDto.getEmail());
         if(userExistente.isPresent()) {
             throw new BadRequestException("Email já existe.");
         }
+
+        if(usuario.isNovo()) usuario.setSenha(passwordEncoder.encode(usuarioDto.getSenha()));
             
         
         return usuarioMapper.toDto(usuarioRepository.save(usuario));

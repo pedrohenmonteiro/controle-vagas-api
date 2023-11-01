@@ -41,4 +41,8 @@ public class Usuario {
     public boolean adicionaPermissoes(Permissao permissao) {
         return getPermissoes().add(permissao);
     }
+
+    public boolean isNovo() {
+        return getId() == null;
+    }
 }

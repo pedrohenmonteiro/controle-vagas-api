@@ -2,8 +2,8 @@
 
 const CLIENT_ID = "myclientid";
 const CLIENT_SECRET = "myclientsecret";
-const BASE_URL = "http://localhost:8080/";
-const TOKEN_URL = "oauth2/token"
+const BASE_URL = "http://localhost:8080";
+const TOKEN_URL = "/oauth2/token"
 
 
 

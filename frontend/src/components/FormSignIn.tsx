@@ -40,6 +40,7 @@ export default function FormSignIn() {
         <TextField
           name="username"
           label="Email"
+          type="email"
           onInputChange={(v) => handleInput("username", v)}
         />
         <TextField
