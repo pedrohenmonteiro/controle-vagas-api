@@ -1,11 +1,43 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Auth from "./Auth";
 import Button from "./Button";
 import TextField from "./TextField";
 import { useState } from "react";
+import AuthService from "../services/auth-services";
+
+export type SignUpProps = {
+  nome: string;
+  email: string;
+  senha: string;
+};
 
 export default function FormSignUp() {
-  const [values, setValues] = useState({ nome: "", email: "", senha: "" });
+  const navigate = useNavigate();
+
+  const [values, setValues] = useState<SignUpProps>({
+    nome: "",
+    email: "",
+    senha: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    setLoading(true);
+    e.preventDefault();
+    console.log(values);
+
+    try {
+      const signUp = await AuthService.signUp(values);
+      if (signUp) {
+        navigate("/candidaturas");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Erro. Tente novamente mais tarde.", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleInput = (field: string, value: string) => {
     setValues((s) => ({ ...s, [field]: value }));
@@ -13,7 +45,7 @@ export default function FormSignUp() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Auth title="Entre na sua conta">
+      <Auth title="Cria uma conta">
         <TextField
           name="nome"
           label="Nome"

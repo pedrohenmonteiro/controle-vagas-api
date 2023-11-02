@@ -7,11 +7,19 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth-services";
 import Auth from "./Auth";
 
+export type SignInProps = {
+  username: string;
+  password: string;
+};
+
 export default function FormSignIn() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState({ username: "", password: "" });
+  const [values, setValues] = useState<SignInProps>({
+    username: "",
+    password: "",
+  });
 
   const handleInput = (field: string, value: string) => {
     setValues((s) => ({ ...s, [field]: value }));
@@ -23,10 +31,11 @@ export default function FormSignIn() {
     console.log(values);
 
     try {
-      await AuthService.login(values.username, values.password).then(() => {
+      const login = await AuthService.login(values);
+      if (login) {
         navigate("/candidaturas");
         window.location.reload();
-      });
+      }
     } catch (error) {
       console.error("Erro. Tente novamente mais tarde.", error);
     } finally {
