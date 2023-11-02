@@ -42,6 +42,10 @@ public class Candidatura {
     @JoinColumn(name = "tecnologia_id", nullable = false)
     private Tecnologia tecnologia;
 
+    @ManyToOne
+	@JoinColumn(name = "usuario_id", nullable = false)
+	private Usuario usuario;
+
     @CreationTimestamp
     private OffsetDateTime criadoEm;
 }
