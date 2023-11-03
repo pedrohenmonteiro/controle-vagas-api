@@ -1,75 +1,16 @@
-import { useState } from "react";
-import TextField from "./TextField";
-import Button from "./Button";
-import Title from "./Title";
-import { Link, useNavigate } from "react-router-dom";
 
-import AuthService from "../services/auth-services";
-import Auth from "./Auth";
-
-export type SignInProps = {
-  username: string;
-  password: string;
-};
-
-export default function FormSignIn() {
-  const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<SignInProps>({
-    username: "",
-    password: "",
-  });
-
-  const handleInput = (field: string, value: string) => {
-    setValues((s) => ({ ...s, [field]: value }));
-  };
-
-  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
-    setLoading(true);
-    e.preventDefault();
-    console.log(values);
-
-    try {
-      const login = await AuthService.login(values);
-      if (login) {
-        navigate("/candidaturas");
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error("Erro. Tente novamente mais tarde.", error);
-    } finally {
-      setLoading(false);
-    }
+function FormSignIn() {
+  const handleLogin = () => {
+    // Redireciona o usuário para a página de autorização do GitHub
+    window.location.href = `http://localhost:8080/oauth2/authorize?response_type=code&redirect_uri=http://localhost:5173/login/oauth2/code/client-server&client_id=client-server&scope=read`;
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Auth title="Entre na sua conta">
-        <TextField
-          name="username"
-          label="Email"
-          type="email"
-          onInputChange={(v) => handleInput("username", v)}
-        />
-        <TextField
-          name="password"
-          label="Senha"
-          type="password"
-          onInputChange={(v) => handleInput("password", v)}
-        />
-
-        <Button color="blue" bold type="submit" disabled={loading}>
-          Entrar
-        </Button>
-
-        <div className="text-sm text-center text-gray-900 ">
-          Não tem uma conta?{" "}
-          <Link to="/cadastro">
-            <a className="text-emerald-600 underline">Cadastre-se</a>
-          </Link>
-        </div>
-      </Auth>
-    </form>
+    <div>
+      <h1>Bem-vindo ao Meu Aplicativo</h1>
+      <button onClick={handleLogin}>Login com GitHub</button>
+    </div>
   );
 }
+
+export default FormSignIn;

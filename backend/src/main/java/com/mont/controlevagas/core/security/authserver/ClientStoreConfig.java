@@ -46,12 +46,12 @@ public class ClientStoreConfig {
 
             RegisteredClient frontClient = RegisteredClient
             .withId(UUID.randomUUID().toString())
-            .clientId("front-server")
-            .clientSecret(passwordEncoder.encode("front"))
+            .clientId("client-server")
+            .clientSecret(passwordEncoder.encode("client"))
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)   
-            .redirectUri("https://oidcdebugger.com/debug")         
+            .redirectUri("http://localhost:5173/login/oauth2/code/client-server")         
             .scope("read")
             .scope("write")
             .tokenSettings(TokenSettings.builder()
