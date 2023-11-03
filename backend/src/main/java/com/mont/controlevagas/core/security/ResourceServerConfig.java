@@ -1,25 +1,22 @@
 package com.mont.controlevagas.core.security;
 
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -31,49 +28,63 @@ public class ResourceServerConfig {
 
 
 	@Bean
-	@Order(2)
-	public SecurityFilterChain rsSecurityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain resourceServerFilterChain(HttpSecurity http) throws Exception {
+        http
+        .formLogin(Customizer.withDefaults())
+        .csrf(crsf -> crsf.disable())
+        .cors(Customizer.withDefaults())
+        .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()).jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
 
-		http.csrf(csrf -> csrf.disable());
-		http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/usuarios").permitAll());
-		http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
-		http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
-		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-		return http.build();
-	}
 
-	@Bean
-	public JwtAuthenticationConverter jwtAuthenticationConverter() {
-		JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-		grantedAuthoritiesConverter.setAuthoritiesClaimName("authorities");
-		grantedAuthoritiesConverter.setAuthorityPrefix("");
+        return http.build();
+    } 
 
-		JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-		jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-		return jwtAuthenticationConverter;
-	}
 
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
+    private JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
 
-		String[] origins = corsOrigins.split(",");
+        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            List<String> authorities = jwt.getClaimAsStringList("authorities");
 
-		CorsConfiguration corsConfig = new CorsConfiguration();
-		corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
-		corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
-		corsConfig.setAllowCredentials(true);
-		corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+            if (authorities == null) {
+                return Collections.emptyList();
+            }
 
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", corsConfig);
-		return source;
-	}
+            JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
+            Collection<GrantedAuthority> grantedAuthorities = authoritiesConverter.convert(jwt);
 
-	@Bean
-	FilterRegistrationBean<CorsFilter> corsFilter() {
-		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(
-				new CorsFilter(corsConfigurationSource()));
-		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-		return bean;
-	}
+            grantedAuthorities.addAll(authorities
+                    .stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList()));
+
+            return grantedAuthorities;
+        });
+
+        return converter;
+    }
+
+	// @Bean
+	// CorsConfigurationSource corsConfigurationSource() {
+
+	// 	String[] origins = corsOrigins.split(",");
+
+	// 	CorsConfiguration corsConfig = new CorsConfiguration();
+	// 	corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
+	// 	corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
+	// 	corsConfig.setAllowCredentials(true);
+	// 	corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+
+	// 	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	// 	source.registerCorsConfiguration("/**", corsConfig);
+	// 	return source;
+	// }
+
+	// @Bean
+	// FilterRegistrationBean<CorsFilter> corsFilter() {
+	// 	FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(
+	// 			new CorsFilter(corsConfigurationSource()));
+	// 	bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+	// 	return bean;
+	// }
 }

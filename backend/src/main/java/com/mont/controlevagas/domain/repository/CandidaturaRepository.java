@@ -16,4 +16,5 @@ public interface CandidaturaRepository extends JpaRepository<Candidatura, Long> 
     @Query("from Candidatura c join fetch c.tecnologia join fetch c.plataforma where c.status = :status" )
     List<Candidatura> findByStatus(CandidaturaStatus status);
 
+    
 }
