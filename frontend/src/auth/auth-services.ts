@@ -1,11 +1,10 @@
 import Cookies from "js-cookie";
 
-const CLIENT_ID = "front-server";
-const CLIENT_SECRET = "front";
+const CLIENT_ID = "client-server";
+const CLIENT_SECRET = "client";
 const BASE_URL = "http://localhost:8080";
 const TOKEN_URL = "/oauth2/token"
-const USER_URL = "/usuarios"
-const REDIRECT_URI = 'http://localhost:5153/';
+const REDIRECT_URI = 'http://localhost:5173/auth/callback';
  
     type TokenProps = {
         access_token: string,
@@ -22,15 +21,13 @@ const REDIRECT_URI = 'http://localhost:5153/';
         method: 'POST',
         body: params,
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`,
         },
       })
         .then((response) => response.json())
-        .then((data) => {
-          const token = data;
+        .then((token) => {
           saveToken(token);
-
-          // Armazene o token de acesso de forma segura (por exemplo, em localStorage ou cookies)
         })
         .catch((error) => {
           console.error('Erro na troca de código por token:', error);
@@ -40,6 +37,7 @@ const REDIRECT_URI = 'http://localhost:5153/';
    const saveToken = (token: TokenProps) => {
      var expireDate = new Date().getTime() + (1000 * token.expires_in);
      Cookies.set("access_token", token.access_token, {expires: expireDate});
+     localStorage.setItem("teste", token.access_token);
      console.log('Obtained Access token');
    }
  
