@@ -18,7 +18,7 @@ const REDIRECT_URI = 'http://localhost:5153/';
      params.append('redirect_uri', REDIRECT_URI);
      params.append('code',code);
  
-     fetch('http://localhost:8080/oauth2/token', {
+     fetch(BASE_URL + TOKEN_URL, {
         method: 'POST',
         body: params,
         headers: {
@@ -41,27 +41,36 @@ const REDIRECT_URI = 'http://localhost:5153/';
      var expireDate = new Date().getTime() + (1000 * token.expires_in);
      Cookies.set("access_token", token.access_token, {expires: expireDate});
      console.log('Obtained Access token');
-     window.location.href = 'http://localhost:5173';
    }
  
-//    getResource(resourceUrl) : Observable<any>{
-//      var headers = new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'Bearer '+Cookie.get('access_token')});
-//      return this._http.get(resourceUrl,{ headers: headers })
-//                     .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
-//    }
+    const getResource = async (resourceUrl:string) => {
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("access_token")}`,
+      }
+    
+    return await fetch(resourceUrl, {
+      method: "GET",
+      headers: headers
+    });
+  }
  
-//    checkCredentials(){
-//      return Cookie.check('access_token');
-//    } 
+   const checkCredentials = () => {
+     return !!Cookies.get('access_token');
+   } 
  
-//    logout() {
-//      Cookie.delete('access_token');
-//      window.location.reload();
-//    }
-//  }
+   const logout = () => {
+     Cookies.remove('access_token');
+     window.location.reload();
+   
+ }
 
     const authService = {
-        retrieveToken
+        retrieveToken,
+        getResource,
+        checkCredentials,
+        logout
     };
     
     export default authService;

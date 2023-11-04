@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import Auth from "./Auth";
+import Auth from "./BaseAuth";
 import Button from "./Button";
 import TextField from "./TextField";
 import { useState } from "react";
-import AuthService from "../services/auth-services";
+import AuthService from "../auth/auth-services";
 
 export type SignUpProps = {
   nome: string;
@@ -27,8 +27,8 @@ export default function FormSignUp() {
     console.log(values);
 
     try {
-      const signUp = await AuthService.signUp(values);
-      if (signUp) {
+      //  const signUp = await AuthService.signUp(values);
+      if (true) {
         navigate("/candidaturas");
         window.location.reload();
       }

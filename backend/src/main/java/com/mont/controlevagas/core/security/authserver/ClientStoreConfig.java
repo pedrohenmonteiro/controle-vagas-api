@@ -51,7 +51,7 @@ public class ClientStoreConfig {
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)   
-            .redirectUri("http://localhost:5173/login/oauth2/code/client-server")         
+            .redirectUri("http://localhost:5173/auth/callback")         
             .scope("read")
             .scope("write")
             .tokenSettings(TokenSettings.builder()
