@@ -1,8 +1,16 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthService from "./auth-services";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   useEffect(() => {
-    login();
+    if (AuthService.checkCredentials()) {
+      navigate("/candidaturas");
+    } else {
+      login();
+    }
   }, []);
 
   const login = () => {

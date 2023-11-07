@@ -27,6 +27,7 @@ const REDIRECT_URI = 'http://localhost:5173/auth/callback';
       })
         .then((response) => response.json())
         .then((token) => {
+          console.log(token)
           saveToken(token);
         })
         .catch((error) => {
