@@ -4,7 +4,7 @@ import TextField from "./TextField";
 import Title from "./Title";
 import { CandidaturasProps } from "../templates/Candidaturas";
 import Select from "./Select";
-import { useNavigate } from "react-router-dom";
+import AuthService from "../auth/auth-services";
 
 type FormCandidacyProps = {
   candidatura: CandidaturasProps;
@@ -25,27 +25,13 @@ export default function FormCandidacy({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
+    AuthService.getResource(TECNOLOGIAS_URL).then((apiData) => {
+      setTecnologies(apiData);
+    });
 
-    fetch(TECNOLOGIAS_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((apiData) => {
-        setTecnologies(apiData);
-      });
-
-    fetch(PLATAFORMAS_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((apiData) => {
-        setPlatforms(apiData);
-      });
+    AuthService.getResource(PLATAFORMAS_URL).then((apiData) => {
+      setPlatforms(apiData);
+    });
   }, []);
 
   const [values, setValues] = useState({

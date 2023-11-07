@@ -44,16 +44,23 @@ const REDIRECT_URI = 'http://localhost:5173/auth/callback';
  
     const getResource = async (resourceUrl:string) => {
 
+      
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${Cookies.get("access_token")}`,
       }
-    
-    return await fetch(resourceUrl, {
-      method: "GET",
-      headers: headers
-    });
-  }
+
+      return fetch(resourceUrl, {
+        method: "GET",
+        headers: headers,
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error(`Erro na requisição: ${response.status}`);
+        }
+        return response.json();
+      });
+    };
+  
  
    const checkCredentials = () => {
      return !!Cookies.get('access_token');
