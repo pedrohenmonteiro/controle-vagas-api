@@ -10,6 +10,7 @@ import Text from "../components/Text";
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import FormCandidacy from "../components/FormCandidacy";
+import AuthService from "../auth/auth-services";
 
 export type CandidaturasProps = {
   id: number | null;
@@ -71,8 +72,9 @@ export default function Candidaturas() {
   };
 
   useEffect(() => {
-    console.log("Página atualizada");
-    fetchData();
+    AuthService.getResource(CANDIDATURAS_URL).then((apiData) => {
+      setCandidatura(apiData);
+    });
   }, [formSubmitted]);
 
   return (
