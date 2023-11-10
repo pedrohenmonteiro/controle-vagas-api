@@ -95,6 +95,7 @@ export default function FormCandidacy({
     }
   };
 
+  if (loading) return <div>Carregando...</div>;
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-5 ">

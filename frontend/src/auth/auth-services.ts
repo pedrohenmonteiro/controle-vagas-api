@@ -17,7 +17,7 @@ const REDIRECT_URI = 'http://localhost:5173/auth/callback';
      params.append('redirect_uri', REDIRECT_URI);
      params.append('code',code);
  
-     fetch(BASE_URL + TOKEN_URL, {
+     return fetch(BASE_URL + TOKEN_URL, {
         method: 'POST',
         body: params,
         headers: {
@@ -38,7 +38,6 @@ const REDIRECT_URI = 'http://localhost:5173/auth/callback';
    const saveToken = (token: TokenProps) => {
      var expireDate = new Date().getTime() + (1000 * token.expires_in);
      Cookies.set("access_token", token.access_token, {expires: expireDate});
-     localStorage.setItem("teste", token.access_token);
      console.log('Obtained Access token');
    }
  

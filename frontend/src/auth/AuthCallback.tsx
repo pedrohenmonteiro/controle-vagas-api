@@ -11,8 +11,9 @@ export default function AuthCallback() {
     const authorizationCode = searchParams.get("code");
 
     if (authorizationCode) {
-      AuthService.retrieveToken(authorizationCode);
-      navigate("/candidaturas");
+      AuthService.retrieveToken(authorizationCode).then(() => {
+        navigate("/candidaturas");
+      });
     }
   }, [location, navigate]);
 

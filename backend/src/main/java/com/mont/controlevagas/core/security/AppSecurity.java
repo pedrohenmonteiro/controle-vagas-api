@@ -13,9 +13,9 @@ public class AppSecurity {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public String getUsername() {
+    public String getUserId() {
         var jwt = (Jwt) getAuthentication().getPrincipal();
-        return jwt.getClaim("username");
+        return jwt.getClaim("usuario_id");
     }
 
     public boolean possuiPermissao(String permissao) {
@@ -32,7 +32,7 @@ public class AppSecurity {
     }
 
     public boolean usuarioAutenticadoIgual(String username) {
-        return getUsername() != null && username != null && getUsername().equals(username);
+        return getUserId() != null && username != null && getUserId().equals(username);
     }
 
 }

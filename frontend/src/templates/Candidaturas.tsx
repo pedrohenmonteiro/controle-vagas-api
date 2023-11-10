@@ -53,30 +53,13 @@ export default function Candidaturas() {
   const [candidaturaSelected, setCandidaturaSelected] =
     useState<CandidaturasProps>(initialValue);
 
-  const fetchData = async () => {
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(CANDIDATURAS_URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`Erro na solicitação GET`);
-      }
-      const data = await response.json();
-      setCandidatura(data);
-    } catch (error) {
-      console.error(`Erro ao buscar dados da API:`, error);
-    }
-  };
-
   useEffect(() => {
     AuthService.getResource(CANDIDATURAS_URL).then((apiData) => {
       setCandidatura(apiData);
     });
   }, [formSubmitted]);
 
+  if (!candidatura) return null;
   return (
     <div>
       <Container>
