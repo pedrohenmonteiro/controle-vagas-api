@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.mont.controlevagas.domain.model.Candidatura;
 import com.mont.controlevagas.domain.model.CandidaturaStatus;
+import com.mont.controlevagas.domain.model.Usuario;
 
 public interface CandidaturaRepository extends JpaRepository<Candidatura, Long> {
  
@@ -16,5 +17,6 @@ public interface CandidaturaRepository extends JpaRepository<Candidatura, Long> 
     @Query("from Candidatura c join fetch c.tecnologia join fetch c.plataforma where c.status = :status" )
     List<Candidatura> findByStatus(CandidaturaStatus status);
 
+    List<Candidatura> findByUsuario(Usuario usuario);
     
 }

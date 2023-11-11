@@ -16,4 +16,5 @@ public class CandidaturaDto {
     private BigDecimal salario;
     private PlataformaDto plataforma;
     private TecnologiaDto tecnologia;
+    private UsuarioDto usuario;
 }

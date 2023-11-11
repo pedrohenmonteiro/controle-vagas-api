@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mont.controlevagas.api.dto.CandidaturaDto;
 import com.mont.controlevagas.api.dto.input.CandidaturaInputDto;
+import com.mont.controlevagas.core.security.AppSecurity;
 import com.mont.controlevagas.core.security.SecurityConstants;
 import com.mont.controlevagas.domain.model.CandidaturaStatus;
 import com.mont.controlevagas.domain.service.CandidaturaService;
@@ -30,6 +31,8 @@ public class CandidaturaController {
     
      @Autowired
     private CandidaturaService candidaturaService;
+
+ 
 
     @SecurityConstants.Candidaturas.LeituraEGravacao
     @GetMapping

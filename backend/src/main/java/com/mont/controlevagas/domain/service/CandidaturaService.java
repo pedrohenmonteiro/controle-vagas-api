@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 import com.mont.controlevagas.api.dto.CandidaturaDto;
 import com.mont.controlevagas.api.dto.input.CandidaturaInputDto;
 import com.mont.controlevagas.api.mapper.CandidaturaMapper;
+import com.mont.controlevagas.core.security.AppSecurity;
 import com.mont.controlevagas.domain.exceptions.BadRequestException;
 import com.mont.controlevagas.domain.exceptions.ConflictException;
 import com.mont.controlevagas.domain.exceptions.NotFoundException;
 import com.mont.controlevagas.domain.model.Candidatura;
 import com.mont.controlevagas.domain.model.CandidaturaStatus;
+import com.mont.controlevagas.domain.model.Plataforma;
 import com.mont.controlevagas.domain.repository.CandidaturaRepository;
 import com.mont.controlevagas.domain.repository.PlataformaRepository;
 import com.mont.controlevagas.domain.repository.TecnologiaRepository;
@@ -35,8 +37,16 @@ public class CandidaturaService {
      @Autowired
     private TecnologiaRepository tecnologiaRepository;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
+
+       @Autowired
+	private AppSecurity appSecurity;
+
     public List<CandidaturaDto> findAll() {
-        return candidaturaMapper.toCollectionDto(candidaturaRepository.findAll());
+        var usuario = usuarioService.findOrFail(Long.parseLong(appSecurity.getUserId()));
+        return candidaturaMapper.toCollectionDto(candidaturaRepository.findByUsuario(usuario));
     }
 
     public List<CandidaturaDto> findByStatus(CandidaturaStatus status) {
@@ -90,6 +100,10 @@ public class CandidaturaService {
 
     protected Candidatura findOrFail(Long id) {
         return candidaturaRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    } 
+
+    protected Plataforma findOr(Long id) {
+        return plataformaRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     } 
 
     private void setPlataforma(Candidatura candidatura) {
