@@ -77,38 +77,42 @@ export default function Candidaturas() {
           </div>
           <Navigation />
 
-          {candidatura?.map((candidatura) => {
-            return (
-              <div
-                key={candidatura?.id}
-                className="flex items-start justify-between"
-              >
-                <div className="flex flex-col gap-1">
-                  <Title>{candidatura?.empresa}</Title>
-                  <Text medium>{candidatura?.descricao}</Text>
-                  <div className="flex gap-4">
-                    <Text tecnologia={candidatura?.tecnologia.nome}>
-                      {candidatura?.tecnologia.nome}
-                    </Text>
-                    <Text icon={<RiMoneyDollarCircleLine />}>
-                      {candidatura?.salario}
-                    </Text>
-                    <Text>{candidatura?.plataforma.nome}</Text>
-                  </div>
-                </div>
-                <Button
-                  icon={<RxUpdate />}
-                  icon2={<SlArrowDown />}
-                  onClick={() => {
-                    setCandidaturaSelected(candidatura);
-                    setShowModal(true);
-                  }}
+          {candidatura.length > 0 ? (
+            candidatura?.map((candidatura) => {
+              return (
+                <div
+                  key={candidatura?.id}
+                  className="flex items-start justify-between"
                 >
-                  Atualizar
-                </Button>
-              </div>
-            );
-          })}
+                  <div className="flex flex-col gap-1">
+                    <Title>{candidatura?.empresa}</Title>
+                    <Text medium>{candidatura?.descricao}</Text>
+                    <div className="flex gap-4">
+                      <Text tecnologia={candidatura?.tecnologia.nome}>
+                        {candidatura?.tecnologia.nome}
+                      </Text>
+                      <Text icon={<RiMoneyDollarCircleLine />}>
+                        {candidatura?.salario}
+                      </Text>
+                      <Text>{candidatura?.plataforma.nome}</Text>
+                    </div>
+                  </div>
+                  <Button
+                    icon={<RxUpdate />}
+                    icon2={<SlArrowDown />}
+                    onClick={() => {
+                      setCandidaturaSelected(candidatura);
+                      setShowModal(true);
+                    }}
+                  >
+                    Atualizar
+                  </Button>
+                </div>
+              );
+            })
+          ) : (
+            <p>Não há candidaturas aplicadas no momento.</p>
+          )}
         </div>
       </Container>
       <Modal
