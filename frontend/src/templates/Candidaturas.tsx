@@ -29,8 +29,7 @@ export type CandidaturasProps = {
 } | null;
 
 export default function Candidaturas() {
-  const API_URL = "http://localhost:8080";
-  const CANDIDATURAS_URL = `${API_URL}/candidaturas`;
+  const CANDIDATURAS_URL = `/candidaturas`;
 
   const [candidatura, setCandidatura] = useState<CandidaturasProps[]>();
   const [showModal, setShowModal] = useState(false);

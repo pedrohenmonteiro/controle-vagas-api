@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 
+
 const CLIENT_ID = "client-server";
 const CLIENT_SECRET = "client";
 const BASE_URL = "http://localhost:8080";
@@ -7,7 +8,8 @@ const TOKEN_URL = "/oauth2/token"
 const REDIRECT_URI = 'http://localhost:5173/auth/callback';
  
     type TokenProps = {
-        access_token: string,
+        usuario_id: string
+        access_token: string
         expires_in: number
     }
  
@@ -49,9 +51,28 @@ const REDIRECT_URI = 'http://localhost:5173/auth/callback';
         Authorization: `Bearer ${Cookies.get("access_token")}`,
       }
 
-      return fetch(resourceUrl, {
+      return fetch(BASE_URL + resourceUrl, {
         method: "GET",
         headers: headers,
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error(`Erro na requisição: ${response.status}`);
+        }
+        return response.json();
+      });
+    };
+
+    const postResource = async (resourceUrl:string, body: any) => {
+      
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Cookies.get("access_token")}`,
+      }
+
+      return fetch(BASE_URL + resourceUrl, {
+        headers: headers,
+        method: "POST",
+        body: JSON.stringify(body)
       }).then((response) => {
         if (!response.ok) {
           throw new Error(`Erro na requisição: ${response.status}`);
@@ -64,6 +85,8 @@ const REDIRECT_URI = 'http://localhost:5173/auth/callback';
    const checkCredentials = () => {
      return !!Cookies.get('access_token');
    } 
+
+
  
    const logout = () => {
      Cookies.remove('access_token');
@@ -74,8 +97,9 @@ const REDIRECT_URI = 'http://localhost:5173/auth/callback';
     const authService = {
         retrieveToken,
         getResource,
+        postResource,
         checkCredentials,
-        logout
+        logout,
     };
     
     export default authService;

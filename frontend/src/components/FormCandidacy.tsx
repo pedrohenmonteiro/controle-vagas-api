@@ -15,10 +15,9 @@ export default function FormCandidacy({
   candidatura,
   onClose,
 }: FormCandidacyProps) {
-  const API_URL = "http://localhost:8080";
-  const TECNOLOGIAS_URL = `${API_URL}/tecnologias`;
-  const PLATAFORMAS_URL = `${API_URL}/plataformas`;
-  const CANDIDATURAS_URL = `${API_URL}/candidaturas`;
+  const TECNOLOGIAS_URL = `/tecnologias`;
+  const PLATAFORMAS_URL = `/plataformas`;
+  const CANDIDATURAS_URL = `/candidaturas`;
 
   const [tecnologies, setTecnologies] = useState();
   const [platforms, setPlatforms] = useState();
@@ -63,36 +62,16 @@ export default function FormCandidacy({
     e.preventDefault();
     setLoading(true);
 
-    const method = candidatura?.id ? "PUT" : "POST";
-
-    const url = `${CANDIDATURAS_URL}${
-      method.includes("PUT") ? `/${candidatura?.id}` : ""
-    }`;
-
-    try {
-      const token = localStorage.getItem("access_token");
-      console.log(token);
-
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(values),
+    AuthService.postResource(CANDIDATURAS_URL, values)
+      .then(() => {
+        onClose();
+      })
+      .catch((e) => {
+        console.error("Erro ao enviar solicitaçao", e);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-      console.log(values);
-
-      if (!response.ok) {
-        throw new Error(`Erro na solicitação ${method}`);
-      }
-
-      onClose();
-    } catch (error) {
-      console.error(`Erro ao enviar a solicitação ${method}`, error);
-    } finally {
-      setLoading(false);
-    }
   };
 
   if (loading) return <div>Carregando...</div>;

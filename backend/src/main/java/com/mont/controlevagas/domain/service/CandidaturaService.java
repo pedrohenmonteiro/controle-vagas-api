@@ -60,7 +60,10 @@ public class CandidaturaService {
 
     public CandidaturaDto create(CandidaturaInputDto candidaturaDto) {
         try {
-            var candidatura = candidaturaMapper.toEntity(candidaturaDto);
+        var candidatura = candidaturaMapper.toEntity(candidaturaDto);
+        var usuario = usuarioService.findOrFail(Long.parseLong(appSecurity.getUserId()));
+        candidatura.setUsuario(usuario);
+
         setPlataforma(candidatura);
         setTecnologia(candidatura);
 
