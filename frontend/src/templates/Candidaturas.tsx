@@ -57,7 +57,7 @@ export default function Candidaturas() {
     AuthService.getResource(CANDIDATURAS_URL).then((apiData) => {
       setCandidatura(apiData);
     });
-  }, [formSubmitted]);
+  }, [formSubmitted, filtroStatus]);
 
   if (!candidatura) return null;
   return (

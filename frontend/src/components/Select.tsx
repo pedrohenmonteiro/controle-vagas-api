@@ -2,7 +2,7 @@ import { SelectHTMLAttributes, useState } from "react";
 
 export type SelectProps = {
   selectValues?: {
-    id: number;
+    id: number | "EM_ANALISE" | "APROVADO" | "REPROVADO";
     nome: string;
   }[];
   label?: string;
@@ -31,13 +31,7 @@ export default function Select({
   return (
     <div className="flex flex-col justify-start">
       {!!label && <label htmlFor={labelFor}>{label}</label>}
-      <select
-        value={select}
-        onChange={onChange}
-        name="tecnologias"
-        id="tecnologias"
-        {...props}
-      >
+      <select value={select} onChange={onChange} {...props}>
         {selectValues?.map((selectValue) => {
           return (
             <option key={selectValue.id} value={selectValue.id}>

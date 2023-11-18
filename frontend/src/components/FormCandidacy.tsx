@@ -50,17 +50,23 @@ export default function FormCandidacy({
   };
 
   const handleSelect = (field: string, value: string) => {
-    setValues((s) => ({
-      ...s,
-      [field]: {
-        id: +value,
-      },
-    }));
+    if (field === "status") {
+      setValues((s) => ({ ...s, [field]: value }));
+    } else {
+      setValues((s) => ({
+        ...s,
+        [field]: {
+          id: +value,
+        },
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+
+    console.log(values);
 
     AuthService.postResource(CANDIDATURAS_URL, values)
       .then(() => {
@@ -112,6 +118,16 @@ export default function FormCandidacy({
             label="Selecione a plataforma"
             initialValue={values?.plataforma.id?.toString()}
             onSelectChange={(v) => handleSelect("plataforma", v)}
+          />
+          <Select
+            label="Selecione o status"
+            selectValues={[
+              { id: "EM_ANALISE", nome: "Em análise" },
+              { id: "APROVADO", nome: "Aprovado" },
+              { id: "REPROVADO", nome: "Reprovado" },
+            ]}
+            initialValue={values?.status || ""}
+            onSelectChange={(v) => handleSelect("status", v)}
           />
         </div>
 
