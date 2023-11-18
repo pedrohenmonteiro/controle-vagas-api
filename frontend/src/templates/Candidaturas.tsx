@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import FormCandidacy from "../components/FormCandidacy";
 import AuthService from "../auth/auth-services";
+import formatSalary from "../utils/FormatSalary";
 
 export type CandidaturasProps = {
   id: number | null;
@@ -96,7 +97,7 @@ export default function Candidaturas() {
                           {candidatura?.tecnologia.nome}
                         </Text>
                         <Text icon={<RiMoneyDollarCircleLine />}>
-                          {candidatura?.salario}
+                          {formatSalary(candidatura?.salario)}
                         </Text>
                         <Text>{candidatura?.plataforma.nome}</Text>
                       </div>
