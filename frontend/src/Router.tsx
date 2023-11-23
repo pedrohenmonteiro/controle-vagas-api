@@ -6,12 +6,25 @@ import SignUpPage from "./pages/signuppage";
 import AuthCallback from "./auth/AuthCallback";
 import Home from "./auth/Auth";
 import Auth from "./components/BaseAuth";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import PrivateRoute from "./auth/ProtectedRoute";
+import ProtectedRoute from "./auth/ProtectedRoute";
 
-export const Router = () => (
-  <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/auth/callback" element={<AuthCallback />} />
-    <Route path="/candidaturas" element={<CandidaturasPage />} />
-    <Route path="/cadastro" element={<SignUpPage />} />
-  </Routes>
-);
+export const Router = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route
+        path="/candidaturas"
+        element={
+          <ProtectedRoute>
+            <Candidaturas />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/cadastro" element={<SignUpPage />} />
+    </Routes>
+  );
+};

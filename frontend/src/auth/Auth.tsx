@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "./auth-services";
 
-export default function Home() {
+export default function Auth() {
   const navigate = useNavigate();
 
   useEffect(() => {
