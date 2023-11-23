@@ -6,32 +6,30 @@ import { CandidaturasProps } from "../templates/Candidaturas";
 import Select from "./Select";
 import AuthService from "../auth/auth-services";
 
+type CommonProps = {
+  id: number;
+  nome: string;
+};
+
+type PlatformProps = CommonProps;
+type TecnologiesProps = CommonProps;
+
 type FormCandidacyProps = {
   candidatura: CandidaturasProps;
   onClose: () => void;
+  tecnologies: TecnologiesProps[];
+  platforms: PlatformProps[];
 };
 
 export default function FormCandidacy({
   candidatura,
   onClose,
+  tecnologies,
+  platforms,
 }: FormCandidacyProps) {
-  const TECNOLOGIAS_URL = `/tecnologias`;
-  const PLATAFORMAS_URL = `/plataformas`;
   const CANDIDATURAS_URL = `/candidaturas`;
 
-  const [tecnologies, setTecnologies] = useState();
-  const [platforms, setPlatforms] = useState();
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    AuthService.getResource(TECNOLOGIAS_URL).then((apiData) => {
-      setTecnologies(apiData);
-    });
-
-    AuthService.getResource(PLATAFORMAS_URL).then((apiData) => {
-      setPlatforms(apiData);
-    });
-  }, []);
 
   const [values, setValues] = useState({
     empresa: candidatura?.empresa || "",

@@ -31,11 +31,16 @@ export type CandidaturasProps = {
 
 export default function Candidaturas() {
   const CANDIDATURAS_URL = `/candidaturas`;
+  const TECNOLOGIAS_URL = `/tecnologias`;
+  const PLATAFORMAS_URL = `/plataformas`;
 
   const [candidatura, setCandidatura] = useState<CandidaturasProps[]>();
   const [showModal, setShowModal] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [filtroStatus, setFiltroStatus] = useState("Aprovado");
+
+  const [tecnologies, setTecnologies] = useState([]);
+  const [platforms, setPlatforms] = useState([]);
 
   const initialValue = {
     id: null,
@@ -59,6 +64,16 @@ export default function Candidaturas() {
       setCandidatura(apiData);
     });
   }, [formSubmitted, filtroStatus]);
+
+  useEffect(() => {
+    AuthService.getResource(TECNOLOGIAS_URL).then((apiData) => {
+      setTecnologies(apiData);
+    });
+
+    AuthService.getResource(PLATAFORMAS_URL).then((apiData) => {
+      setPlatforms(apiData);
+    });
+  }, []);
 
   if (!candidatura) return null;
   return (
@@ -133,6 +148,8 @@ export default function Candidaturas() {
             setFormSubmitted((value) => !value);
           }}
           candidatura={candidaturaSelected}
+          tecnologies={tecnologies}
+          platforms={platforms}
         />
       </Modal>
     </div>
