@@ -90,9 +90,11 @@ const REDIRECT_URI = 'http://localhost:5173/auth/callback';
  
    const logout = () => {
      Cookies.remove('access_token');
-     window.location.reload();
+     
+     window.location.href =
+      "http://localhost:8080/logout";
+  };
    
- }
 
     const authService = {
         retrieveToken,

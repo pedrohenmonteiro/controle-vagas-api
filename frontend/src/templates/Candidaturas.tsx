@@ -2,6 +2,7 @@ import { RxUpdate } from "react-icons/rx";
 import { SlArrowDown } from "react-icons/sl";
 import { BsBookmark } from "react-icons/bs";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import { CgLogOut } from "react-icons/cg";
 import Button from "../components/Button";
 import Title from "../components/Title";
 import Navigation from "../components/Navigation";
@@ -12,6 +13,7 @@ import Modal from "../components/Modal";
 import FormCandidacy from "../components/FormCandidacy";
 import AuthService from "../auth/auth-services";
 import formatSalary from "../utils/FormatSalary";
+import authService from "../auth/auth-services";
 
 export type CandidaturasProps = {
   id: number | null;
@@ -89,6 +91,16 @@ export default function Candidaturas() {
               }}
             >
               Nova Candidatura
+            </Button>
+            <Button
+              color="gray"
+              bold
+              icon={<CgLogOut />}
+              onClick={() => {
+                authService.logout();
+              }}
+            >
+              Sair
             </Button>
           </div>
           <Navigation onFilterChange={(status) => setFiltroStatus(status)} />
